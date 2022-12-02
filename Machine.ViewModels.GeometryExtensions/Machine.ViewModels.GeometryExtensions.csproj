@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FC75.Machine.ViewModels" Version="2.0.0" />
+    <PackageReference Include="FC75.Machine.ViewModels.Interfaces" Version="2.0.0" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

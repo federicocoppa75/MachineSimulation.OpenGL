@@ -1,0 +1,127 @@
+﻿<Window x:Class="Machine.Viewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Machine.Viewer"
+        xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
+        xmlns:view3D="clr-namespace:Machine._3D.Views;assembly=Machine.3D.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Data">
+                    <MenuItem Header="Source" ItemsSource="{Binding DataSource.Options}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Name}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Load Machine" Command="{Binding DataSource.Value.LoadMachineCommand}" />
+                    <MenuItem Header="Unload Machine" Command="{Binding Kernel.UnloadAllMachineCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Load Tooling" Command="{Binding DataSource.Value.LoadToolingCommand}" />
+                    <MenuItem Header="Unload Tooling" Command="{Binding UnloadToolingCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Load Environment" Command="{Binding DataSource.Value.LoadEnvironmentCommand}" />
+                    <MenuItem Header="Save Environment" Command="{Binding DataSource.Value.SaveEnvironmentCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Export view" Command="{Binding ViewExportController.ExportCommand}" />
+                </MenuItem>
+                <MenuItem Header="Steps">
+                    <MenuItem Header="Load" Command="{Binding StepController.LoadStepsCommand}" />
+                    <MenuItem Header="UnLoad" Command="{Binding StepController.UnloadStepsCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding StepsExecutionController.DynamicTransition}"/>
+                    <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding StepsExecutionController.AutoStepOver}"/>
+                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding StepsExecutionController.MultiChannel}" IsEnabled="{Binding StepsExecutionController.AutoStepOver}"/>
+                    <MenuItem Header="Timespane factor" ItemsSource="{Binding TimespanFactor.OptionFlags}" IsEnabled="{Binding StepsExecutionController.DynamicTransition}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Minimum sample time" ItemsSource="{Binding SampleTimeOptions.OptionFlags}" IsEnabled="{Binding StepsExecutionController.DynamicTransition}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.Enable}" />
+                    <Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding PanelController.ExportCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Panel outer material" ItemsSource="{Binding PanelOuterMaterial.OptionFlags}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Panel inner material" ItemsSource="{Binding PanelInnerMaterial.OptionFlags}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <TabControl>
+                    <TabItem Header="Struct">
+                        <views:Struct />
+                    </TabItem>
+                    <TabItem Header="Links">
+                        <views:Links />
+                    </TabItem>
+                    <TabItem Header="Panel">
+                        <views:Panel/>
+                    </TabItem>
+                    <TabItem Header="Toolchange">
+                        <views:Toolchange/>
+                    </TabItem>
+                    <TabItem Header="Gantry">
+                        <views:Gantry/>
+                    </TabItem>
+                    <TabItem Header="Steps">
+                        <views:Steps/>
+                    </TabItem>
+                    <TabItem Header="Injectors">
+                        <views:Injectors/>
+                    </TabItem>
+                </TabControl>
+
+                <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+                <view3D:MachineView Grid.Column="2"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

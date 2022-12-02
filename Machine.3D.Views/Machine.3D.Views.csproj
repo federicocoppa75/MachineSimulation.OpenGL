@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>Machine._3D.Views</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="4.1.0" />
+    <PackageReference Include="FC75.Machine.ViewModels" Version="2.0.0" />
+    <PackageReference Include="ObjectTK-JB" Version="1.1.1" />
+    <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shaders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.ViewModels.GeometryExtensions\Machine.ViewModels.GeometryExtensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Shaders\BaseShader.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
