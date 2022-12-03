@@ -2,10 +2,12 @@
 using Machine._3D.Views.Helpers;
 using Machine._3D.Views.Messages;
 using Machine._3D.Views.Programs;
+using Machine._3D.Views.ViewModels;
 using Machine.ViewModels;
 using Machine.ViewModels.Interfaces.Insertions;
 using Machine.ViewModels.Interfaces.Links;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,12 +28,18 @@ namespace Machine._3D.Views
 
         public ElementViewModel[] GetElements() => _elementMap.Values.ToArray();
 
+        public IStepsExecutionController StepsExecutionController { get; protected set; }
+        public IInvertersController InverterController { get; protected set; } = new InverterControllerViewModel();
+
+
         public MainViewModel(BaseProgram program) : base()
         {
             _program = program;
 
             Messenger.Register<AddChildToElementMessage>(this, msg => AddElement(msg.Element));
             Messenger.Register<RemoveChildFromElementMessage>(this, msg => RemoveElement(msg.Element));
+            StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.TryGetInstance(out IStepsExecutionController controller) ? controller : null;
+            Machine.ViewModels.Ioc.SimpleIoc<IInvertersController>.Register(InverterController);
         }
 
         #region BaseElementsCollectionViewModel abstracts
@@ -97,8 +105,11 @@ namespace Machine._3D.Views
                 RemoveElement(item);
             }
 
-            //if (_meshMap.TryGetValue(element.ModelFile, out M3DVG.Mesh m)) m.Dispose();
-            //_meshMap.Remove(element.ModelFile);
+            if(_elementMap.Count == 0)
+            {
+                foreach (var item in _meshMap) item.Value.Dispose();
+                _meshMap.Clear();
+            }
         }
 
         private void AddSimpleElement(IMachineElement element)
@@ -127,7 +138,7 @@ namespace Machine._3D.Views
 
         private void AddAngularTransmission(IAngularTransmission at)
         {
-            var bodyModelFile = (at as ViewModels.MachineElements.AngularTransmissionViewModel).BodyModelFile;
+            var bodyModelFile = (at as Machine.ViewModels.MachineElements.AngularTransmissionViewModel).BodyModelFile;
             var e = new AngularTransmissionViewModel()
             {
                 Element = at,

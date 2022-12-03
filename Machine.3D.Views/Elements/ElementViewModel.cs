@@ -1,5 +1,4 @@
 ﻿using Machine._3D.Views.Programs;
-using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +13,16 @@ using System.Collections.Specialized;
 using Machine.ViewModels.Messaging;
 using Machine._3D.Views.Messages;
 using MVMGEH = Machine.ViewModels.GeometryExtensions.Helpers;
+using MVMIoc = Machine.ViewModels.Ioc;
+using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
+
 
 namespace Machine._3D.Views.Elements
 {
     internal class ElementViewModel
     {
-        private IMachineElement _element;
-        public IMachineElement Element
+        private MVMIME.IMachineElement _element;
+        public MVMIME.IMachineElement Element
         {
             get => _element;
             set
@@ -39,7 +41,7 @@ namespace Machine._3D.Views.Elements
         public virtual bool IsVisible => IsVisibleBase() && IsModelFileNameValid();
 
         protected bool IsVisibleBase() => Element != null &&
-                                          Element is IViewElementData ved &&
+                                          Element is MVMIME.IViewElementData ved &&
                                           ved.IsVisible;
 
         protected bool IsModelFileNameValid() => !string.IsNullOrEmpty(Element.ModelFile);
@@ -53,14 +55,14 @@ namespace Machine._3D.Views.Elements
             Geometry.Draw(program);
         }
 
-        private void AttachEvent(IMachineElement element)
+        private void AttachEvent(MVMIME.IMachineElement element)
         {
             var collection = element.Children as INotifyCollectionChanged;
 
             if (collection != null) collection.CollectionChanged += OnChildrenCollectionChanged;
         }
 
-        private void DetachEvent(IMachineElement element)
+        private void DetachEvent(MVMIME.IMachineElement element)
         {
             var collection = element.Children as INotifyCollectionChanged;
 
@@ -72,13 +74,13 @@ namespace Machine._3D.Views.Elements
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance().Send(new AddChildToElementMessage() { Element = e.NewItems[0] as IMachineElement });
+                    MVMIoc.SimpleIoc<IMessenger>.GetInstance().Send(new AddChildToElementMessage() { Element = e.NewItems[0] as MVMIME.IMachineElement });
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance().Send(new RemoveChildFromElementMessage() { Element = e.OldItems[0] as IMachineElement });
+                    MVMIoc.SimpleIoc<IMessenger>.GetInstance().Send(new RemoveChildFromElementMessage() { Element = e.OldItems[0] as MVMIME.IMachineElement });
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    foreach (var item in Element.Children) ViewModels.Ioc.SimpleIoc<IMessenger>.GetInstance().Send(new RemoveChildFromElementMessage() { Element = item as IMachineElement });
+                    foreach (var item in Element.Children) MVMIoc.SimpleIoc<IMessenger>.GetInstance().Send(new RemoveChildFromElementMessage() { Element = item as MVMIME.IMachineElement });
                     break;
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Move:

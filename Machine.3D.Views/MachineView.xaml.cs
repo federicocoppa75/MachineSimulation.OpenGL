@@ -50,6 +50,7 @@ namespace Machine._3D.Views
     /// </summary>
     public partial class MachineView : UserControl
     {
+        RenderProcessCaller _renderProcesssCaller = new RenderProcessCaller(); 
         int _frames;
         double _elapsed;
         private bool _ctrlLoaded = false;
@@ -71,8 +72,9 @@ namespace Machine._3D.Views
         {
             InitializeComponent();
 
-            ViewModels.Ioc.SimpleIoc<IColliderHelperFactory>.Register<ColliderHelperFactory>();
-            ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<IColliderHelperFactory>.Register<ColliderHelperFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
+            Machine.ViewModels.Ioc.SimpleIoc<IProcessCaller>.Register(_renderProcesssCaller);
 
             ProgramFactory.BasePath = "Shaders/";
             ProgramFactory.Extension = "glsl";  
@@ -142,6 +144,8 @@ namespace Machine._3D.Views
             }
 
             GL.Finish();
+
+            if(_ctrlLoaded ) _renderProcesssCaller.NotifyRendered();
         }
 
         private void OnGlViewCtrlKeyDown(object sender, KeyEventArgs e)

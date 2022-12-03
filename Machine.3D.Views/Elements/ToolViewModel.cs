@@ -1,5 +1,4 @@
 ﻿using Machine._3D.Views.Programs;
-using Machine.ViewModels.Interfaces.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
+using MVMME = Machine.ViewModels.MachineElements;
 
 namespace Machine._3D.Views.Elements
 {
@@ -25,7 +25,7 @@ namespace Machine._3D.Views.Elements
 
         protected void DrawCone(BaseProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
         {
-            var t = Element as ViewModels.MachineElements.ToolViewModel;
+            var t = Element as MVMME.ToolViewModel;
 
             SetMaterial(program, t.ConeColor);
             OTKM.Matrix4 model = GetChainTransformation();
