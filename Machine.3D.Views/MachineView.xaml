@@ -13,6 +13,7 @@
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <converters:BoolToTextWeightConverter x:Key="boolToTextWeightConverter" ValueForFalse="Normal" ValueForTrue="Bold"/>
         <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter" />
+        <converters3D:TimespanToStringConverter x:Key="timespanToStringConverter" />
         <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Visibility" Value="Collapsed" />
         </Style>
@@ -21,7 +22,7 @@
         <glWpfControl:GLWpfControl x:Name="glViewCtrl" Render="OnGlViewCtrlRender" Loaded="OnGlViewCtrlLoaded" Unloaded="OnGlViewCtrlUnloaded" KeyDown="OnGlViewCtrlKeyDown"/>
         <Label x:Name="fpsLabel" Content="58 FPS" Background="Transparent" Width="50" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Top"/>
         <StackPanel Orientation="Vertical" Background="Transparent">
-            <Label Content="{Binding StepsExecutionController.StepTime, StringFormat={}{0:mm}:{0:ss}}"
+            <Label Content="{Binding StepsExecutionController.StepTime, Converter={StaticResource timespanToStringConverter}}"
                    Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}" 
                    HorizontalContentAlignment="Left" 
                    Background="Transparent" />
