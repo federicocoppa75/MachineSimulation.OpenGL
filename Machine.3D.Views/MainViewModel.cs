@@ -26,6 +26,8 @@ namespace Machine._3D.Views
         Dictionary<string, M3DVG.Mesh> _meshMap = new Dictionary<string, M3DVG.Mesh>();
         Dictionary<IMachineElement, ElementViewModel> _elementMap = new Dictionary<IMachineElement, ElementViewModel>();
 
+        public ObservableCollection<ILinkViewModel> LinearLinks { get; private set; } = new ObservableCollection<ILinkViewModel>();
+
         public ElementViewModel[] GetElements() => _elementMap.Values.ToArray();
 
         public IStepsExecutionController StepsExecutionController { get; protected set; }
@@ -90,6 +92,11 @@ namespace Machine._3D.Views
                 AddSimpleElement(element);
             }
 
+            if ((element.LinkToParent != null) && (element.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+            {
+                LinearLinks.Add(element.LinkToParent);
+            }
+
             foreach (var item in element.Children)
             {
                 AddElement(item);
@@ -99,6 +106,11 @@ namespace Machine._3D.Views
         private void RemoveElement(IMachineElement element)
         {
             _elementMap.Remove(element);
+
+            if ((element.LinkToParent != null) && (element.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
+            {
+                LinearLinks.Remove(element.LinkToParent);
+            }
 
             foreach (var item in element.Children)
             {

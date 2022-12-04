@@ -5,10 +5,57 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Machine._3D.Views"
              xmlns:glWpfControl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
+             xmlns:converters="clr-namespace:Machine.Views.Converters;assembly=Machine.Views.Converters"
+             xmlns:converters3D="clr-namespace:Machine._3D.Views.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+        <converters:BoolToTextWeightConverter x:Key="boolToTextWeightConverter" ValueForFalse="Normal" ValueForTrue="Bold"/>
+        <converters3D:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter" />
+        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <glWpfControl:GLWpfControl x:Name="glViewCtrl" Render="OnGlViewCtrlRender" Loaded="OnGlViewCtrlLoaded" Unloaded="OnGlViewCtrlUnloaded" KeyDown="OnGlViewCtrlKeyDown"/>
         <Label x:Name="fpsLabel" Content="58 FPS" Background="Transparent" Width="50" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Top"/>
+        <StackPanel Orientation="Vertical" Background="Transparent">
+            <Label Content="{Binding StepsExecutionController.StepTime, StringFormat={}{0:mm}:{0:ss}}"
+                   Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}" 
+                   HorizontalContentAlignment="Left" 
+                   Background="Transparent" />
+            <ListView ItemsSource="{Binding LinearLinks}" 
+                      Visibility="{Binding StepsExecutionController.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}" 
+                      Background="Transparent" 
+                      BorderBrush="Transparent" 
+                      BorderThickness="0">
+                <ListView.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            Background="{TemplateBinding Background}">
+                                        <GridViewRowPresenter HorizontalAlignment="Stretch" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Width="Auto" Margin="0" Content="{TemplateBinding Content}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn Width="30" DisplayMemberBinding="{Binding Id, Converter={StaticResource axIdToLabelCharConverter}}"/>
+                        <GridViewColumn Width="70" DisplayMemberBinding="{Binding Value, StringFormat={}{0:0.00}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
     </Grid>
 </UserControl>
