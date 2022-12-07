@@ -1,6 +1,6 @@
 # MachineSimulation.OpenGL
 This project is an alternative of [**MachineSimulation.NET**](https://github.com/federicocoppa75/MachineSimulation.NET): the 3D view is based on OpenGL wrapped by OpenTK.
-The struct of the application il based on MVVM pattern; the models, view models and views, except 3D view, are the same of [**MachineSimulation.NET**](https://github.com/federicocoppa75/MachineSimulation.NET), the diffent is the implementation of the 3D view.
+The struct of the application il based on MVVM pattern; the models, view models and views, except 3D view, are the same of [**MachineSimulation.NET**](https://github.com/federicocoppa75/MachineSimulation.NET), the diffent is the implementation of the 3D view. To test this solution you can try with the content of folder [Example](https://github.com/federicocoppa75/MachineSimulation.NET#example).
 
 ## Machine.Viewer
 Application for view the machine with relative tooling.
