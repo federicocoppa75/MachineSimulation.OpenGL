@@ -13,3 +13,6 @@ View of the machine implemented on OpenGL. The use of OpenGL is made by these pa
 
 ## Machine.ViewModels.GeometryExtensions
 Class library for factories, builders and helpers.
+
+## MaterialRemove.ViewModels.3D ##
+Implementation of the abstract classes of [MaterialRemove.ViewModels](https://github.com/federicocoppa75/MachineSimulation.NET#materialremoveviewmodels).
