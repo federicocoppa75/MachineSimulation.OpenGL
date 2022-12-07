@@ -23,6 +23,8 @@ using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
 using Machine.ViewModels;
+using MRVM3D = MaterialRemove.ViewModels._3D;
+using MRVMI = MaterialRemove.ViewModels.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -46,7 +48,9 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MSVMI.IBackStepActionFactory>.Register<MSVME.BackStepActionFactory>();
             ViewModels.Ioc.SimpleIoc<MSVMI.IActionExecuter>.Register<MSVME.ActionExecuter>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDispatcherHelper>.Register<MVUI.DispatcherHelper>();
-            ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<Machine.ViewModels.Factories.PanelViewModelFactory>();
+            //ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<Machine.ViewModels.Factories.PanelViewModelFactory>();
+            ViewModels.Ioc.SimpleIoc<MRVMI.IElementViewModelFactory>.Register<MRVM3D.ElementViewModelFactory>();
+            ViewModels.Ioc.SimpleIoc<MVMIF.IPanelElementFactory>.Register<MRMB.PanelViewModelFactory>();
             ViewModels.Ioc.SimpleIoc<MVMI.Tools.IToolObserverProvider>.Register<MRMB.ToolsObserverProvider>();
             ViewModels.Ioc.SimpleIoc<MRI.IMaterialRemoveData>.Register<MRMB.MaterialRemoveData>();
             ViewModels.Ioc.SimpleIoc<MVMII.IInsertionsSinkProvider>.Register<MVMIns.InsertionsSinkProvider>();
@@ -55,6 +59,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MVMB.ICommandExceptionObserver>.Register<MVUI.SimpleCommandExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementManager>.Register<MSVME.LinkMovementManager>();
+            ViewModels.Ioc.SimpleIoc<MRI.IPanelExportController>.Register<MRMB.PanelExportController>();
         }
     }
 }

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>MaterialRemove.ViewModels._3D</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FC75.MaterialRemove.ViewModels" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Machine.ViewModels.GeometryExtensions\Machine.ViewModels.GeometryExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

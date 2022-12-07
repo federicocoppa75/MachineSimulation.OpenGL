@@ -11,6 +11,7 @@
     <PackageReference Include="AssimpNet" Version="4.1.0" />
     <PackageReference Include="FC75.Machine.ViewModels" Version="2.0.0" />
     <PackageReference Include="FC75.Machine.Views.Converters" Version="2.0.0" />
+    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.0.0" />
     <PackageReference Include="ObjectTK-JB" Version="1.1.1" />
     <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
   </ItemGroup>

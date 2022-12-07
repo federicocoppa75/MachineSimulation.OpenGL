@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
 using MVMME = Machine.ViewModels.MachineElements;
+using M3DVH = Machine._3D.Views.Helpers;
 
 namespace Machine._3D.Views.Elements
 {
@@ -27,7 +28,7 @@ namespace Machine._3D.Views.Elements
         {
             var t = Element as MVMME.ToolViewModel;
 
-            SetMaterial(program, t.ConeColor);
+            M3DVH.MaterialHelper.SetMaterial(program, t.ConeColor);
             OTKM.Matrix4 model = GetChainTransformation();
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 

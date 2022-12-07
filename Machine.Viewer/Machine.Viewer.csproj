@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Machine.3D.Views\Machine.3D.Views.csproj" />
+    <ProjectReference Include="..\MaterialRemove.ViewModels.3D\MaterialRemove.ViewModels.3D.csproj" />
   </ItemGroup>
 
 </Project>

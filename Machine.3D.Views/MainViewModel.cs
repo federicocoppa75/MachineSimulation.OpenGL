@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
+using MRI = MaterialRemove.Interfaces;
 
 namespace Machine._3D.Views
 {
@@ -81,7 +82,14 @@ namespace Machine._3D.Views
             }
             else if (element is IPanelElement pe)
             {
-                AddPanelElement(pe);
+                if(pe is MRI.IPanel)
+                {
+                    AddSectionedPanelElement(pe);
+                }
+                else
+                {
+                    AddPanelElement(pe);
+                }                
             }
             else if (element is IInjectedObject io)
             {
@@ -105,6 +113,7 @@ namespace Machine._3D.Views
 
         private void RemoveElement(IMachineElement element)
         {
+            var vm = _elementMap[element];
             _elementMap.Remove(element);
 
             if ((element.LinkToParent != null) && (element.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
@@ -122,6 +131,8 @@ namespace Machine._3D.Views
                 foreach (var item in _meshMap) item.Value.Dispose();
                 _meshMap.Clear();
             }
+
+            (vm as IDisposable)?.Dispose();
         }
 
         private void AddSimpleElement(IMachineElement element)
@@ -168,6 +179,14 @@ namespace Machine._3D.Views
                 Geometry = GetPanelGeometry(pe)
             };
 
+            _elementMap[pe] = pvm;
+        }
+
+        private void AddSectionedPanelElement(IPanelElement pe)
+        {
+            var pvm = new SectionedPanelVieModel() { Element = pe };
+
+            pvm.Initialize();
             _elementMap[pe] = pvm;
         }
 

@@ -15,7 +15,7 @@ using Machine._3D.Views.Messages;
 using MVMGEH = Machine.ViewModels.GeometryExtensions.Helpers;
 using MVMIoc = Machine.ViewModels.Ioc;
 using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
-
+using M3DVH = Machine._3D.Views.Helpers;
 
 namespace Machine._3D.Views.Elements
 {
@@ -48,7 +48,7 @@ namespace Machine._3D.Views.Elements
 
         public virtual void Draw(BaseProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
         {
-            SetMaterial(program, Element.Color);
+            M3DVH.MaterialHelper.SetMaterial(program, Element.Color);
             OTKM.Matrix4 model = GetChainTransformation();
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
@@ -91,26 +91,5 @@ namespace Machine._3D.Views.Elements
         }
 
         protected OTKM.Matrix4 GetChainTransformation() => MVMGEH.ChainTransformtionHelper.GetChainTransformation(Element);
-
-        protected static Material Convert(MDB.Color color)
-        {
-            return new Material()
-            {
-                ambient = new OTKM.Vector3(color.R / 255f, color.G / 255f, color.B / 255f),
-                diffuse = new OTKM.Vector3(color.R / 255f, color.G / 255f, color.B / 255f),
-                specular = new OTKM.Vector3(0.5f, 0.5f, 0.5f),
-                shininess = 32
-            };
-        }
-
-        protected static void SetMaterial(BaseProgram program, MDB.Color color)
-        {
-            var m = Convert(color);
-
-            program.MaterialAmbient.Set(m.ambient);
-            program.MaterialDiffuse.Set(m.diffuse);
-            program.MaterialSpecular.Set(m.specular);
-            program.MaterialShininess.Set(m.shininess);
-        }
     }
 }

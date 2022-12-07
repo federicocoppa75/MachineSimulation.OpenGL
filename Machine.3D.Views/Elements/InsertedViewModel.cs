@@ -11,10 +11,5 @@ namespace Machine._3D.Views.Elements
     internal class InsertedViewModel : ElementViewModel
     {
         public override bool IsVisible => IsVisibleBase();
-
-        public override void Draw(BaseProgram program, Matrix4 projection, Matrix4 view)
-        {
-            base.Draw(program, projection, view);
-        }
     }
 }
