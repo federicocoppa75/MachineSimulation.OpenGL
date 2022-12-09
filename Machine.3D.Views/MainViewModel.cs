@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
+using Machine._3D.Views.Elements.SectionedPanel;
 
 namespace Machine._3D.Views
 {
@@ -174,7 +175,7 @@ namespace Machine._3D.Views
 
         private void AddPanelElement(IPanelElement pe)
         {
-            var pvm = new PanelViewModel()
+            var pvm = new Elements.PanelViewModel()
             {
                 Element = pe,
                 Geometry = GetPanelGeometry(pe)
@@ -185,7 +186,7 @@ namespace Machine._3D.Views
 
         private void AddSectionedPanelElement(IPanelElement pe)
         {
-            var pvm = new SectionedPanelVieModel() { Element = pe };
+            var pvm = new Elements.SectionedPanel.PanelViewModel() { Element = pe };
 
             pvm.Initialize();
             _elementMap[pe] = pvm;

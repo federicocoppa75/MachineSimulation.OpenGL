@@ -12,9 +12,9 @@ using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
 using System.Threading;
 
-namespace Machine._3D.Views.Elements
+namespace Machine._3D.Views.Elements.SectionedPanel
 {
-    internal class SectionedPanelVieModel : ElementViewModel, IDisposable
+    internal abstract class SectionedPanelViewModel : ElementViewModel, IDisposable
     {
         struct RawMesh
         {
@@ -25,8 +25,10 @@ namespace Machine._3D.Views.Elements
 
         int _processing;
         M3DVG.Mesh _panelMesh;
-        List<PanelSectionSurfaceViewModel> _sectionSurfaces = new List<PanelSectionSurfaceViewModel>();
         private bool disposedValue;
+
+        protected List<PanelSectionSurfaceViewModel> _sectionSurfaces = new List<PanelSectionSurfaceViewModel>();
+
 
         public override bool IsVisible => IsVisibleBase();
 
@@ -39,12 +41,15 @@ namespace Machine._3D.Views.Elements
             }
 
             Matrix4 model = GetChainTransformation();
-            M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
+            //M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
+            SetMaterial(program);
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
             _panelMesh.Draw();
             CheckUpdateAsync(program);
         }
+
+        protected abstract void SetMaterial(BaseProgram program);
 
         private void CheckUpdate(BaseProgram program)
         {
@@ -61,8 +66,8 @@ namespace Machine._3D.Views.Elements
 
                 section.GetMesh(out Vector3[] points, out uint[] idxs, out Vector3[] normals);
                 meshes.Add(new RawMesh { points = points, normals = normals, indexes = idxs });
-                pLength+= points.Length;
-                iLength+= idxs.Length;
+                pLength += points.Length;
+                iLength += idxs.Length;
             }
 
             var indexes = new uint[iLength];
@@ -95,24 +100,25 @@ namespace Machine._3D.Views.Elements
                 {
                     CheckUpdate(program);
                     Interlocked.Exchange(ref _processing, 0);
-                }                    
+                }
             });
         }
 
-        public void Initialize()
-        {
-            var panel = Element as MRI.IPanel;
+        public abstract void Initialize();
+        //public void Initialize()
+        //{
+        //    var panel = Element as MRI.IPanel;
 
-            foreach (var section in panel.Sections)
-            {
-                foreach (var face in section.Faces)
-                {
-                    _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(face));
-                }
+        //    foreach (var section in panel.Sections)
+        //    {
+        //        foreach (var face in section.Faces)
+        //        {
+        //            _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(face));
+        //        }
 
-                _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(section.Volume));
-            }
-        }
+        //        _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(section.Volume));
+        //    }
+        //}
 
         private bool IsChanged() => _sectionSurfaces.Any(s => s.IsChanged);
 
