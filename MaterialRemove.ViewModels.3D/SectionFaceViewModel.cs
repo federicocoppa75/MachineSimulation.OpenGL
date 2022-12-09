@@ -19,18 +19,10 @@ namespace MaterialRemove.ViewModels._3D
         static Vector3 _zp = new Vector3( 0,  0,  1);
         static Vector3 _zn = new Vector3( 0,  0, -1);
 
-        Vector3[] _points;
-        Vector3[] _normals;
-        uint[] _indexes;
         bool _initialized;
-        uint _changeIndex = 1;
-        uint _lastChangeIndex = 0;
+        SectionSurface _sectionSurface = new SectionSurface();
 
-        public bool IsChanged => _changeIndex != _lastChangeIndex;
-
-        public SectionFaceViewModel() : base()
-        {
-        }
+        public bool IsChanged => _sectionSurface.IsChanged;
 
         public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals)
         {
@@ -40,18 +32,14 @@ namespace MaterialRemove.ViewModels._3D
                 _initialized = true;
             }
 
-            points = _points;
-            indexes= _indexes;
-            normals= _normals;
-            _lastChangeIndex = _changeIndex;
+            _sectionSurface.GetMesh(out points, out indexes, out normals);
         }
 
         protected override void OnActionApplied()
         {
             if (IsCorrupted)
             {
-                GeometryHelper.Convert(InternalGeometry, out _points, out _indexes, out _normals);
-                _changeIndex++;
+                _sectionSurface.Update(InternalGeometry);
             }
         }
 
@@ -88,7 +76,8 @@ namespace MaterialRemove.ViewModels._3D
             var center = new Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
 
             builder.AddCubeFace(center, normal, up, 0.0, SizeX, SizeY);
-            builder.ToMesh(out _points, out _indexes, out _normals);
+            builder.ToMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals);
+            _sectionSurface.SetMesh(points, indexes, normals);
         }
     }
 }

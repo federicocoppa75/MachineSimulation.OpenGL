@@ -12,36 +12,17 @@ namespace MaterialRemove.ViewModels._3D
 {
     internal class SectionVolumeViewModel : MRVM.SectionVolumeViewModel, MVMGEI.IMeshProvider
     {
-        Vector3[] _points;
-        Vector3[] _normals;
-        uint[] _indexes;
-        uint _changeIndex = 1;
-        uint _lastChangeIndex = 0;
+        SectionSurface _sectionSurface = new SectionSurface();
 
-        public bool IsChanged => _changeIndex != _lastChangeIndex;
+        public bool IsChanged => _sectionSurface.IsChanged;
 
-        public SectionVolumeViewModel()
-        {
-            _points = new Vector3[0];
-            _normals = new Vector3[0];
-            _indexes = new uint[0];
-        }
-
-        public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals)
-        {
-            points = _points;
-            indexes = _indexes;
-            normals = _normals;
-
-            _lastChangeIndex = _changeIndex;
-        }
+        public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals) => _sectionSurface.GetMesh(out points, out indexes, out normals);
 
         protected override void OnActionApplied()
         {
             if (IsCorrupted)
             {
-                GeometryHelper.Convert(InternalGeometry, out _points, out _indexes, out _normals);
-                _changeIndex++;
+                _sectionSurface.Update(InternalGeometry);
             }
         }
     }

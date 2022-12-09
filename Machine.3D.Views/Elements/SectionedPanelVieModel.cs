@@ -9,6 +9,7 @@ using MRI = MaterialRemove.Interfaces;
 using M3DVH = Machine._3D.Views.Helpers;
 using M3DVG = Machine._3D.Views.Geometries;
 using Machine.ViewModels.Interfaces.MachineElements;
+using Machine.ViewModels.UI;
 
 namespace Machine._3D.Views.Elements
 {
@@ -33,7 +34,7 @@ namespace Machine._3D.Views.Elements
         {
             if (_panelMesh == null)
             {
-                CheckUpdate(program);
+                CheckUpdateAsync(program);
                 return;
             }
 
@@ -42,7 +43,7 @@ namespace Machine._3D.Views.Elements
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
             _panelMesh.Draw(program);
-            CheckUpdate(program);
+            CheckUpdateAsync(program);
         }
 
         private void CheckUpdate(BaseProgram program)
@@ -59,7 +60,7 @@ namespace Machine._3D.Views.Elements
                 var section = _sectionSurfaces[i];
 
                 section.GetMesh(out Vector3[] points, out uint[] idxs, out Vector3[] normals);
-                meshes.Add(new RawMesh { points = points, normals = normals, indexes = idxs/*, center = section.Center*/ });
+                meshes.Add(new RawMesh { points = points, normals = normals, indexes = idxs });
                 pLength+= points.Length;
                 iLength+= idxs.Length;
             }
@@ -80,8 +81,13 @@ namespace Machine._3D.Views.Elements
                 iOffset += mesh.indexes.Length;
             }
 
-            _panelMesh = new M3DVG.Mesh(vertexes, indexes, program);
+            Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance().CheckBeginInvokeOnUi(() =>
+            {
+                _panelMesh = new M3DVG.Mesh(vertexes, indexes, program);
+            });
         }
+
+        private Task CheckUpdateAsync(BaseProgram program) => Task.Run(() => CheckUpdate(program));
 
         public void Initialize()
         {

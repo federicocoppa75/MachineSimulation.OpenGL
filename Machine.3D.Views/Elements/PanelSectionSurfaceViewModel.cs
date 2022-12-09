@@ -15,21 +15,13 @@ namespace Machine._3D.Views.Elements
 {
     class PanelSectionSurfaceViewModel : IDisposable
     {
-        Vector3 _center;
         IMeshProvider _meshProvider;
         private bool disposedValue;
 
-        public bool IsVisible => Geometry != null;
-
         public bool IsChanged => _meshProvider.IsChanged;
-
-        public Vector3 Center => _center;
-
-        public M3DVG.Mesh Geometry { get; private set; }
 
         private PanelSectionSurfaceViewModel()
         {
-
         }
 
         public static PanelSectionSurfaceViewModel Create(ISectionElement se)
@@ -38,38 +30,13 @@ namespace Machine._3D.Views.Elements
 
             if (mp != null)
             {
-                var psvm = new PanelSectionSurfaceViewModel()
-                {
-                    _meshProvider = mp,
-                    _center = new Vector3((float)se.CenterX, (float)se.CenterY, (float)se.CenterZ)
-                };
-
-
-                return psvm;
+                return new PanelSectionSurfaceViewModel() { _meshProvider = mp };
             }
             else
                 throw new ArgumentException();
         }
 
         public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals) => _meshProvider.GetMesh(out points, out indexes, out normals);
-
-        protected void UpdateGeometry(BaseProgram program)
-        {
-            _meshProvider.GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals);
-            var vertexes = ToVertexes(points, normals);
-            Geometry = new M3DVG.Mesh(vertexes, indexes, program);
-        }
-
-        private static M3DVG.Vertex ToVertex(ref Vector3 point, ref Vector3 normal) => new M3DVG.Vertex(point.X, point.Y, point.Z, normal.X, normal.Y, normal.Z);
-
-        private static M3DVG.Vertex[] ToVertexes(Vector3[] points, Vector3[] normals)
-        {
-            var v = new M3DVG.Vertex[points.Count()];
-
-            for (int i = 0; i < v.Count(); i++) v[i] = ToVertex(ref points[i], ref normals[i]);
-
-            return v;
-        }
 
         #region IDispose implementation
         protected virtual void Dispose(bool disposing)
@@ -79,7 +46,7 @@ namespace Machine._3D.Views.Elements
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
-                    Geometry?.Dispose();
+                    (_meshProvider as IDisposable)?.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
