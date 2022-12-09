@@ -1,4 +1,5 @@
-﻿using Machine._3D.Views.Helpers;
+﻿using Machine._3D.Views.Elements;
+using Machine._3D.Views.Helpers;
 using Machine._3D.Views.Programs;
 using Machine.ViewModels.GeometryExtensions.Factories;
 using Machine.ViewModels.Interfaces;
@@ -54,7 +55,7 @@ namespace Machine._3D.Views
         int _frames;
         double _elapsed;
         private bool _ctrlLoaded = false;
-        private BaseProgram _program;
+        private BaseProgram _baseProgram;
 
         protected Cameras.Camera Camera;
         protected Matrix4 View;
@@ -91,10 +92,10 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
         {
-            _program = ProgramFactory.Create<BaseProgram>();
-            _program.Use();
+            _baseProgram = ProgramFactory.Create<BaseProgram>();
+            _baseProgram.Use();
 
-            DataContext = new MainViewModel(_program);
+            DataContext = new MainViewModel(_baseProgram);
 
             Camera = new Cameras.Camera();
             Camera.SetBehavior(new Cameras.ThirdPersonBehavior());
@@ -111,7 +112,7 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlUnloaded(object sender, RoutedEventArgs e)
         {
-            _program.Dispose();
+            _baseProgram.Dispose();
         }
 
         private void OnGlViewCtrlRender(TimeSpan obj)
@@ -122,14 +123,14 @@ namespace Machine._3D.Views
 
             if (_ctrlLoaded)
             {
-                _program.LightPosition.Set(_light.position);
-                _program.LightAmbient.Set(_light.ambient);
-                _program.LightDiffuse.Set(_light.diffuse);
-                _program.LightSpecular.Set(_light.specular);
+                _baseProgram.LightPosition.Set(_light.position);
+                _baseProgram.LightAmbient.Set(_light.ambient);
+                _baseProgram.LightDiffuse.Set(_light.diffuse);
+                _baseProgram.LightSpecular.Set(_light.specular);
 
                 SetupPerspective();
                 // calculate the MVP matrix and set it to the shaders uniform
-                _program.viewPos.Set(Camera.State.Position);
+                _baseProgram.viewPos.Set(Camera.State.Position);
 
                 var elements = (DataContext as MainViewModel).GetElements();
 
@@ -137,7 +138,7 @@ namespace Machine._3D.Views
                 {
                     if(!item.IsVisible) continue;
 
-                    item.Draw(_program, Projection, View);
+                    item.Draw(_baseProgram, Projection, View);
                 }
 
                 //_program.Use();

@@ -113,7 +113,8 @@ namespace Machine._3D.Views
 
         private void RemoveElement(IMachineElement element)
         {
-            var vm = _elementMap[element];
+            if (!_elementMap.TryGetValue(element, out ElementViewModel vm)) return;
+
             _elementMap.Remove(element);
 
             if ((element.LinkToParent != null) && (element.LinkToParent.MoveType == Data.Enums.LinkMoveType.Linear))
@@ -192,6 +193,11 @@ namespace Machine._3D.Views
 
         private void AddInjectedElement(IInjectedObject io)
         {
+            // pezza per rimediare al fatto che la spina, quando viene creata, non è figlia dell'inseritore
+            // l'effetto è quello di vedere una spina nello spazio
+            // va sistemato in Machine.ViewModels.MachineElements
+            if (io.Parent == null) return;
+
             var ivm = new InsertedViewModel()
             {
                 Element = io,

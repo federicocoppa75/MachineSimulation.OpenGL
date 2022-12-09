@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VMUI = Machine.ViewModels.UI;
+using MRI = MaterialRemove.Interfaces;
 
 
 namespace Machine.Viewer
@@ -15,6 +16,7 @@ namespace Machine.Viewer
         public VMUI.IStepsExecutionController StepsExecutionController => ViewModels.Ioc.SimpleIoc<VMUI.IStepsExecutionController>.GetInstance();
         public VMUI.IOptionProvider<VMUI.TimeSpanFactor> TimespanFactor => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<VMUI.TimeSpanFactor>>.GetInstance();
         public VMUI.IOptionProvider<VMUI.SampleTimeOption> SampleTimeOptions => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<VMUI.SampleTimeOption>>.GetInstance();
+        public MRI.IMaterialRemoveData MaterialRemoveData => ViewModels.Ioc.SimpleIoc<MRI.IMaterialRemoveData>.GetInstance();
 
 
         public MainViewModel() : base()

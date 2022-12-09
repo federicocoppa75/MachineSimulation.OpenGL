@@ -25,6 +25,7 @@ using MVMM = Machine.ViewModels.Messaging;
 using Machine.ViewModels;
 using MRVM3D = MaterialRemove.ViewModels._3D;
 using MRVMI = MaterialRemove.ViewModels.Interfaces;
+using MVMGEF = Machine.ViewModels.GeometryExtensions.Factories;
 
 namespace Machine.Viewer
 {
@@ -60,6 +61,7 @@ namespace Machine.Viewer
             ViewModels.Ioc.SimpleIoc<MVMUI.IExceptionObserver>.Register<MVUI.SimpleExceptionObserver>();
             ViewModels.Ioc.SimpleIoc<MVMI.Links.ILinkMovementManager>.Register<MSVME.LinkMovementManager>();
             ViewModels.Ioc.SimpleIoc<MRI.IPanelExportController>.Register<MRMB.PanelExportController>();
+            ViewModels.Ioc.SimpleIoc<MVMI.Tools.IToolToPanelTransformerFactory>.Register<MVMGEF.ToolToPanelTransformerFactory>();
         }
     }
 }

@@ -34,13 +34,13 @@ namespace MaterialRemove.ViewModels._3D
 
         public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals)
         {
-            if(!_initialized)
+            if (!_initialized)
             {
                 Initialize();
                 _initialized = true;
             }
 
-            points= _points;
+            points = _points;
             indexes= _indexes;
             normals= _normals;
             _lastChangeIndex = _changeIndex;
@@ -85,8 +85,9 @@ namespace MaterialRemove.ViewModels._3D
         private void Initialize(Vector3 normal, Vector3 up)
         {
             var builder = new MVMGEB.MeshBuilder();
+            var center = new Vector3((float)CenterX, (float)CenterY, (float)CenterZ);
 
-            builder.AddCubeFace(Vector3.Zero, normal, up, 0.0, SizeX, SizeY);
+            builder.AddCubeFace(center, normal, up, 0.0, SizeX, SizeY);
             builder.ToMesh(out _points, out _indexes, out _normals);
         }
     }

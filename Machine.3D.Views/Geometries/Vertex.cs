@@ -19,5 +19,11 @@ namespace Machine._3D.Views.Geometries
             position = new Vector3(x, y, z);
             normal = new Vector3(i, j, k);
         }
+
+        public Vertex(Vector3 position, Vector3 normal)
+        {
+            this.position = position;
+            this.normal = normal;
+        }
     }
 }

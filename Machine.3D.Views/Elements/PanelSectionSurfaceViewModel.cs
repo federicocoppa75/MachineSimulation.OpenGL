@@ -21,6 +21,10 @@ namespace Machine._3D.Views.Elements
 
         public bool IsVisible => Geometry != null;
 
+        public bool IsChanged => _meshProvider.IsChanged;
+
+        public Vector3 Center => _center;
+
         public M3DVG.Mesh Geometry { get; private set; }
 
         private PanelSectionSurfaceViewModel()
@@ -34,17 +38,9 @@ namespace Machine._3D.Views.Elements
 
             if (mp != null)
             {
-                //if (mp.IsChanged)
-                //{
-                //    mp.GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals);
-                //    var vertexes = ToVertexes(points, normals);
-                //    geometry = new Mesh(vertexes, indexes, program);
-                //}
-
                 var psvm = new PanelSectionSurfaceViewModel()
                 {
                     _meshProvider = mp,
-                    //Element = ps as IMachineElement,
                     _center = new Vector3((float)se.CenterX, (float)se.CenterY, (float)se.CenterZ)
                 };
 
@@ -55,36 +51,7 @@ namespace Machine._3D.Views.Elements
                 throw new ArgumentException();
         }
 
-        public void Draw(BaseProgram program, Matrix4 projection, Matrix4 view, Matrix4 panelModel)
-        {
-            if(_meshProvider.IsChanged)
-            {
-                M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
-                var model = Matrix4.CreateTranslation(_center) * panelModel;
-
-                program.ModelViewProjectionMatrix.Set(model * view * projection);
-
-                var g = Geometry;
-
-                UpdateGeometry(program);
-
-                Geometry.Draw(program);
-
-                g?.Dispose();
-            }
-            else if(Geometry != null)
-            {
-                M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
-                var model = Matrix4.CreateTranslation(_center) * panelModel;
-                program.ModelViewProjectionMatrix.Set(model * view * projection);
-                Geometry.Draw(program);
-            }
-        }
-
-        private Matrix4 GetChainTransformation()
-        {
-            throw new NotImplementedException();
-        }
+        public void GetMesh(out Vector3[] points, out uint[] indexes, out Vector3[] normals) => _meshProvider.GetMesh(out points, out indexes, out normals);
 
         protected void UpdateGeometry(BaseProgram program)
         {
