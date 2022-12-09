@@ -10,6 +10,7 @@ using M3DVH = Machine._3D.Views.Helpers;
 using M3DVG = Machine._3D.Views.Geometries;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
+using System.Threading;
 
 namespace Machine._3D.Views.Elements
 {
@@ -22,8 +23,7 @@ namespace Machine._3D.Views.Elements
             public uint[] indexes;
         }
 
-        bool _firstDraw = true;
-        object _lockObj = new object();
+        int _processing;
         M3DVG.Mesh _panelMesh;
         List<PanelSectionSurfaceViewModel> _sectionSurfaces = new List<PanelSectionSurfaceViewModel>();
         private bool disposedValue;
@@ -87,7 +87,17 @@ namespace Machine._3D.Views.Elements
             });
         }
 
-        private Task CheckUpdateAsync(BaseProgram program) => Task.Run(() => CheckUpdate(program));
+        private Task CheckUpdateAsync(BaseProgram program)
+        {
+            return Task.Run(() =>
+            {
+                if (Interlocked.CompareExchange(ref _processing, 1, 0) == 0)
+                {
+                    CheckUpdate(program);
+                    Interlocked.Exchange(ref _processing, 0);
+                }                    
+            });
+        }
 
         public void Initialize()
         {
