@@ -42,7 +42,7 @@ namespace Machine._3D.Views.Elements
             M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
-            _panelMesh.Draw(program);
+            _panelMesh.Draw();
             CheckUpdateAsync(program);
         }
 

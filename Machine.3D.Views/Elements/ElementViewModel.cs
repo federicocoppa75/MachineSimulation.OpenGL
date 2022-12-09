@@ -52,7 +52,7 @@ namespace Machine._3D.Views.Elements
             OTKM.Matrix4 model = GetChainTransformation();
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
-            Geometry.Draw(program);
+            Geometry.Draw();
         }
 
         private void AttachEvent(MVMIME.IMachineElement element)

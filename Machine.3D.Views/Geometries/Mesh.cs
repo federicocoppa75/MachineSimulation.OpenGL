@@ -35,7 +35,7 @@ namespace Machine._3D.Views.Geometries
             _vao.BindElementBuffer(_ebo);
         }
 
-        public void Draw(BaseProgram program)
+        public void Draw()
         {
             _vao.Bind();
             _vao.DrawElements(PrimitiveType.Triangles, _ebo.ElementCount);

@@ -32,7 +32,7 @@ namespace Machine._3D.Views.Elements
             OTKM.Matrix4 model = GetChainTransformation();
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
-            ConeGeometry.Draw(program);
+            ConeGeometry.Draw();
         }
     }
 }

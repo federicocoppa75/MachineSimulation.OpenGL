@@ -21,7 +21,7 @@ namespace Machine._3D.Views.Elements
             Matrix4 model = GetChainTransformation();
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
-            Geometry.Draw(program);
+            Geometry.Draw();
         }
     }
 }
