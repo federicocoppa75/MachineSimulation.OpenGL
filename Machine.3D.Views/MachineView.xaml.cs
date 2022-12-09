@@ -98,7 +98,8 @@ namespace Machine._3D.Views
             DataContext = new MainViewModel(_baseProgram);
 
             Camera = new Cameras.Camera();
-            Camera.SetBehavior(new Cameras.ThirdPersonBehavior());
+            //Camera.SetBehavior(new Cameras.ThirdPersonBehavior());
+            Camera.SetBehavior(new Cameras.TrackballBehavior());
             Camera.DefaultState.Position.Z = 1000;
             Camera.ResetToDefault();
             Camera.Enable(this);

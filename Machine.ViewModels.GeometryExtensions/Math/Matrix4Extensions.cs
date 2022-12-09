@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Machine.ViewModels.GeometryExtensions.Math
 {
-    internal static class Matrix4Extensions
+    public static class Matrix4Extensions
     {
         public static Vector3 Transform(this Matrix4 m, Vector3 v) => ((new Vector4(v, 1)) * m).Xyz;
 

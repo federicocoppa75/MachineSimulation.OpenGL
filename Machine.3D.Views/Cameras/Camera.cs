@@ -17,12 +17,13 @@ namespace Machine._3D.Views.Cameras
         bool _firstMouseMove = true;
         System.Windows.Point _mousePosition;
         private Func<System.Windows.Point> _getMousePosition;
+        private Func<System.Windows.Size> _getViewSize;
 
         public CameraState State;
         public CameraState DefaultState;
         protected CameraBehavior Behavior;
  
-        public float MouseMoveSpeed = 0.005f;
+        public float MouseMoveSpeed = 0.05f;
         public float MouseWheelSpeed = 0.005f;
         //public float MoveSpeed = 60;
 
@@ -51,6 +52,7 @@ namespace Machine._3D.Views.Cameras
             if (Behavior == null) throw new InvalidOperationException("Can not enable Camera while the Behavior is not set.");
 
             _getMousePosition = () => Mouse.GetPosition(window);
+            _getViewSize = () => new System.Windows.Size(window.ActualWidth, window.ActualHeight);
             window.MouseMove += Window_MouseMove;
             window.MouseWheel += Window_MouseWheel;
             window.MouseUp += Window_MouseUp;
@@ -78,6 +80,8 @@ namespace Machine._3D.Views.Cameras
 
             var p = _getMousePosition();
             var d = p - _mousePosition;
+            var s = _getViewSize();
+            Behavior.SetViewSize(s.Width, s.Height);
             Behavior.MouseMove(State, MouseMoveSpeed * new Vector2((float)d.X, (float)d.Y));
 
             _mousePosition = p;

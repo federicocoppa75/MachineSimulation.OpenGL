@@ -9,10 +9,19 @@ namespace Machine._3D.Views.Cameras
 {
     public abstract class CameraBehavior
     {
+        public double Width { get; private set; }
+        public double Height { get; private set; }
+
         public virtual void Initialize(CameraState state) { }
         public virtual void UpdateFrame(CameraState state, float step) { }
         public virtual void MouseMove(CameraState state, Vector2 delta) { }
         public virtual void MouseWheelChanged(CameraState state, float delta) { }
+
+        public void SetViewSize(double width, double height) 
+        { 
+            Width = width;
+            Height = height;
+        }
 
         /// <summary>
         /// TODO: add possibility to limit the pitch and prevent "flipping over"
