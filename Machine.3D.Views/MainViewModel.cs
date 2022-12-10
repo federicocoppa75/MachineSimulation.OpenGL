@@ -18,7 +18,6 @@ using System.Xml.Linq;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
-using Machine._3D.Views.Elements.SectionedPanel;
 
 namespace Machine._3D.Views
 {
@@ -34,7 +33,6 @@ namespace Machine._3D.Views
 
         public IStepsExecutionController StepsExecutionController { get; protected set; }
         public IInvertersController InverterController { get; protected set; } = new InverterControllerViewModel();
-
 
         public MainViewModel(BaseProgram program) : base()
         {

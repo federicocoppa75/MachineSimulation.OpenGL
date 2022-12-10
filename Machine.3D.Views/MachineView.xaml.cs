@@ -1,6 +1,7 @@
 ﻿using Machine._3D.Views.Elements;
 using Machine._3D.Views.Helpers;
 using Machine._3D.Views.Programs;
+using Machine._3D.Views.ViewModels;
 using Machine.ViewModels.GeometryExtensions.Factories;
 using Machine.ViewModels.Interfaces;
 using Machine.ViewModels.Interfaces.Insertions;
@@ -68,6 +69,8 @@ namespace Machine._3D.Views
             diffuse = new Vector3(0.5f),
             specular = new Vector3(1)
         };
+
+        private PanelMaterialViewModel _panelMaterial = new PanelMaterialViewModel();
 
         public MachineView()
         {

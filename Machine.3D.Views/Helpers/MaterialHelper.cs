@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OTKM = OpenTK.Mathematics;
 using MDB = Machine.Data.Base;
+using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;
 
 namespace Machine._3D.Views.Helpers
 {
@@ -30,6 +31,14 @@ namespace Machine._3D.Views.Helpers
             program.MaterialDiffuse.Set(m.diffuse);
             program.MaterialSpecular.Set(m.specular);
             program.MaterialShininess.Set(m.shininess);
+        }
+
+        public static void SetMaterial(BaseProgram program, MVMGEM.Material material)
+        {
+            program.MaterialAmbient.Set(material.Ambient.Xyz);
+            program.MaterialDiffuse.Set(material.Diffuse.Xyz);
+            program.MaterialSpecular.Set(material.Specular.Xyz);
+            program.MaterialShininess.Set(material.Shininess);
         }
     }
 }

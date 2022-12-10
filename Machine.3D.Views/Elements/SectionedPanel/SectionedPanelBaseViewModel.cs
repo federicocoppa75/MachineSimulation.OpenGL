@@ -11,6 +11,8 @@ using M3DVG = Machine._3D.Views.Geometries;
 using Machine.ViewModels.Interfaces.MachineElements;
 using Machine.ViewModels.UI;
 using System.Threading;
+using Machine._3D.Views.Interfaces;
+using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;
 
 namespace Machine._3D.Views.Elements.SectionedPanel
 {
@@ -29,6 +31,8 @@ namespace Machine._3D.Views.Elements.SectionedPanel
 
         protected List<PanelSectionSurfaceViewModel> _sectionSurfaces = new List<PanelSectionSurfaceViewModel>();
 
+        private IPanelMaterials _panelMaterials;
+        public IPanelMaterials PanelMaterials =>  _panelMaterials ?? (_panelMaterials = Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.GetInstance()); 
 
         public override bool IsVisible => IsVisibleBase();
 
@@ -41,7 +45,6 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             }
 
             Matrix4 model = GetChainTransformation();
-            //M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
             SetMaterial(program);
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
@@ -49,7 +52,9 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             CheckUpdateAsync(program);
         }
 
-        protected abstract void SetMaterial(BaseProgram program);
+        protected abstract MVMGEM.Material GetMaterial();
+
+        protected void SetMaterial(BaseProgram program) => M3DVH.MaterialHelper.SetMaterial(program, GetMaterial());
 
         private void CheckUpdate(BaseProgram program)
         {

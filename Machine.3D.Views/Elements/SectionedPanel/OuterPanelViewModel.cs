@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using M3DVH = Machine._3D.Views.Helpers;
 using MRI = MaterialRemove.Interfaces;
+using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;
+
 
 namespace Machine._3D.Views.Elements.SectionedPanel
 {
@@ -24,9 +26,6 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             }
         }
 
-        protected override void SetMaterial(BaseProgram program)
-        {
-            M3DVH.MaterialHelper.SetMaterial(program, new Data.Base.Color() { R = 253, G = 131, B = 0, A = 255 });
-        }
+        protected override MVMGEM.Material GetMaterial() => PanelMaterials.PanelOuter;
     }
 }
