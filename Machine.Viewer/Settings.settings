@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Machine.Viewer" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AutoStepOver" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DynamicTransition" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TimespanFactor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Factor1</Value>
+    </Setting>
+    <Setting Name="MaterialRemove" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MinimumSampleTime" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sample_min</Value>
+    </Setting>
+    <Setting Name="PanelOuterMaterial" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Orange</Value>
+    </Setting>
+    <Setting Name="PanelInnerMaterial" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Turquoise</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

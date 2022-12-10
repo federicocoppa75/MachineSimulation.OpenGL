@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MVUI = Machine.Views.UI;
 using MVH = Machine.Views.Helpers;
+using System.ComponentModel;
 
 namespace Machine.Viewer
 {
@@ -27,6 +28,42 @@ namespace Machine.Viewer
             InitializeComponent();
             DataContext = new MainViewModel();
             MVUI.DispatcherHelper.Initialize();
+
+            UpdateFromSettings();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            SaveToSettings();
+            Settings.Default.Save();
+        }
+
+        private void SaveToSettings()
+        {
+            var vm = DataContext as MainViewModel;
+
+            Settings.Default.AutoStepOver = vm.StepsExecutionController.AutoStepOver;
+            Settings.Default.DynamicTransition = vm.StepsExecutionController.DynamicTransition;
+            Settings.Default.TimespanFactor = vm.StepsExecutionController.TimeSpanFactor.ToString();
+            Settings.Default.MaterialRemove = vm.MaterialRemoveData.Enable;
+            Settings.Default.MinimumSampleTime = vm.StepsExecutionController.MinimumSampleTime.ToString();
+            Settings.Default.PanelOuterMaterial = vm.PanelOuterMaterial.Value;
+            Settings.Default.PanelInnerMaterial = vm.PanelInnerMaterial.Value;
+        }
+
+        private void UpdateFromSettings()
+        {
+            var vm = DataContext as MainViewModel;
+
+            vm.StepsExecutionController.AutoStepOver = Settings.Default.AutoStepOver;
+            vm.StepsExecutionController.DynamicTransition = Settings.Default.DynamicTransition;
+            vm.TimespanFactor.TryToParse(Settings.Default.TimespanFactor);
+            vm.MaterialRemoveData.Enable = Settings.Default.MaterialRemove;
+            vm.SampleTimeOptions.TryToParse(Settings.Default.MinimumSampleTime);
+            vm.PanelOuterMaterial.TryToParse(Settings.Default.PanelOuterMaterial);
+            vm.PanelInnerMaterial.TryToParse(Settings.Default.PanelInnerMaterial);
         }
 
     }
