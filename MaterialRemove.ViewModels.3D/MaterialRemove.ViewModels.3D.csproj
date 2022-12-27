@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>MaterialRemove.ViewModels._3D</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FC75.MaterialRemove.ViewModels" Version="2.0.0" />
+    <PackageReference Include="FC75.MaterialRemove.ViewModels" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
