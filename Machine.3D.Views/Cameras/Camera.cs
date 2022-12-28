@@ -68,13 +68,13 @@ namespace Machine._3D.Views.Cameras
             _getViewSize = () => new System.Windows.Size(window.ActualWidth, window.ActualHeight);
             window.MouseMove += Window_MouseMove;
             window.MouseWheel += Window_MouseWheel;
-            window.MouseUp += Window_MouseUp;
+            window.MouseDown += Window_MouseDown;
 
         }
 
-        private void Window_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _firstMouseMove = true;
+            _mousePosition = _getMousePosition();
         }
 
         private void Window_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -84,13 +84,6 @@ namespace Machine._3D.Views.Cameras
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if(_firstMouseMove)
-            {
-                _mousePosition = _getMousePosition();
-                _firstMouseMove= false;
-                return;
-            }
-
             var p = _getMousePosition();
             var d = p - _mousePosition;
             var s = _getViewSize();
@@ -105,7 +98,7 @@ namespace Machine._3D.Views.Cameras
         {
             window.MouseMove -= Window_MouseMove;
             window.MouseWheel -= Window_MouseWheel;
-            window.MouseUp -= Window_MouseUp;
+            window.MouseDown -= Window_MouseDown;
             _getMousePosition = null;
         }
 

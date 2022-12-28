@@ -14,7 +14,7 @@ namespace Machine._3D.Views.Cameras
     public class TrackballBehavior : CameraBehavior
     {
         private float _lastDistance;
-
+        private bool _updateLastDistance;
         public Vector3 Origin;        
 
         public override void Initialize(CameraState state)
@@ -24,11 +24,13 @@ namespace Machine._3D.Views.Cameras
             // recalculate look at direction
             state.LookAt = Origin - state.Position;
             state.LookAt.Normalize();
+            UpdateLastDistance(state);
         }
 
         public override void SetOrigin(Vector3 point)
         {
             Origin= point;
+            _updateLastDistance= true;
         }
 
         public override void MouseMove(CameraState state, Vector2 delta)
@@ -69,9 +71,16 @@ namespace Machine._3D.Views.Cameras
             UpdateDistance(state, -delta);
         }
 
+        protected void UpdateLastDistance(CameraState state)
+        {
+            _lastDistance = (state.Position - Origin).Length;
+            _updateLastDistance = false;
+        }
+
         protected void UpdateDistance(CameraState state, float scale)
         {
             state.Position = Origin - (state.Position - Origin).Length * (1 + scale) * state.LookAt;
+            UpdateLastDistance(state);
         }
 
         protected void UpdateDistanceAfterRotate(CameraState state, float scale)
@@ -129,7 +138,7 @@ namespace Machine._3D.Views.Cameras
 
         private void RotateX(CameraState state, Vector2 p0, Vector2 p1, Vector3 rotateAround)
         {
-            _lastDistance = (state.Position - Origin).Length;
+            if (_updateLastDistance) UpdateLastDistance(state);
 
             Vector3 v1 = ProjectToTrackball(p0, Width, Height);
             Vector3 v2 = ProjectToTrackball(p1, Width, Height);
