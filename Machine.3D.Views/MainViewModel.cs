@@ -18,6 +18,8 @@ using System.Xml.Linq;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
+using OpenTK.Mathematics;
+using Machine.ViewModels.GeometryExtensions.Math;
 
 namespace Machine._3D.Views
 {
@@ -28,8 +30,6 @@ namespace Machine._3D.Views
         Dictionary<IMachineElement, ElementViewModel> _elementMap = new Dictionary<IMachineElement, ElementViewModel>();
 
         public ObservableCollection<ILinkViewModel> LinearLinks { get; private set; } = new ObservableCollection<ILinkViewModel>();
-
-        public ElementViewModel[] GetElements() => _elementMap.Values.ToArray();
 
         public IStepsExecutionController StepsExecutionController { get; protected set; }
         public IInvertersController InverterController { get; protected set; } = new InverterControllerViewModel();
@@ -42,6 +42,28 @@ namespace Machine._3D.Views
             Messenger.Register<RemoveChildFromElementMessage>(this, msg => RemoveElement(msg.Element));
             StepsExecutionController = Machine.ViewModels.Ioc.SimpleIoc<IStepsExecutionController>.TryGetInstance(out IStepsExecutionController controller) ? controller : null;
             Machine.ViewModels.Ioc.SimpleIoc<IInvertersController>.Register(InverterController);
+        }
+
+        public ElementViewModel[] GetElements() => _elementMap.Values.ToArray();
+
+        public Box3 GetContentBox()
+        {
+            if(this.Kernel.Machines.Count == 0)
+            {
+                return new Box3();
+            }
+            else
+            {
+                var elements = _elementMap.Values.ToArray();
+                var box = elements[0].GetBound();
+
+                for (int i = 1; i < elements.Length; i++)
+                {
+                    box = box.Add(elements[i].GetBound());
+                }
+
+                return box;
+            }
         }
 
         #region BaseElementsCollectionViewModel abstracts

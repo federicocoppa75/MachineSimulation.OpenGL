@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Machine.ViewModels.GeometryExtensions.Math
 {
-    internal struct Ray
+    public struct Ray
     {
         public Vector3 Position;
 

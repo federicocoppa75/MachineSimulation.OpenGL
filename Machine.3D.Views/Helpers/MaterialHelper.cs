@@ -1,9 +1,4 @@
 ﻿using Machine._3D.Views.Programs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OTKM = OpenTK.Mathematics;
 using MDB = Machine.Data.Base;
 using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;

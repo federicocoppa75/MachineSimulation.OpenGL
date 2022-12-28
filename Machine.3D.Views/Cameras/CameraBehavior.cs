@@ -16,6 +16,7 @@ namespace Machine._3D.Views.Cameras
         public virtual void UpdateFrame(CameraState state, float step) { }
         public virtual void MouseMove(CameraState state, Vector2 delta) { }
         public virtual void MouseWheelChanged(CameraState state, float delta) { }
+        public virtual void SetOrigin(Vector3 point) { }
 
         public void SetViewSize(double width, double height) 
         { 

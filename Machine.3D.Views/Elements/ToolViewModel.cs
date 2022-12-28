@@ -1,9 +1,4 @@
 ﻿using Machine._3D.Views.Programs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using M3DVG = Machine._3D.Views.Geometries;
 using OTKM = OpenTK.Mathematics;
 using MVMME = Machine.ViewModels.MachineElements;

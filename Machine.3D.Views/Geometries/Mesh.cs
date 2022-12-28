@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Machine.ViewModels.GeometryExtensions.Math;
 
 namespace Machine._3D.Views.Geometries
 {
@@ -39,6 +40,35 @@ namespace Machine._3D.Views.Geometries
         {
             _vao.Bind();
             _vao.DrawElements(PrimitiveType.Triangles, _ebo.ElementCount);
+        }
+
+        public Box3 GetBound()
+        {
+            var n = _vbo.ElementCount;
+
+            if(n == 0)
+            {
+                throw new InvalidProgramException();
+            }
+            if(n == 1) 
+            {
+                var v = _vbo.Content[0].position;
+                return new Box3(v, v);
+            }
+            else
+            {
+                var v = _vbo.Content;
+                var min = v[0].position;
+                var max = v[0].position;
+
+                for (int i = 1; i < n; i++)
+                {
+                    min = min.GetMinimum(v[i].position);
+                    max = max.GetMaximum(v[i].position);
+                }
+
+                return new Box3(min, max);
+            }
         }
 
         protected virtual void Dispose(bool disposing)

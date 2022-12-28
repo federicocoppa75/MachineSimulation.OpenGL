@@ -156,6 +156,7 @@ namespace Machine._3D.Views
         private void OnGlViewCtrlKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.R) { Camera.ResetToDefault(); }
+            else if(e.Key == Key.E) { Camera.SetByViewBox((DataContext as MainViewModel).GetContentBox()); }
         }
 
         private void Time(TimeSpan obj)

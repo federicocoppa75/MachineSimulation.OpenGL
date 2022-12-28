@@ -1,14 +1,7 @@
 ﻿using Machine._3D.Views.Programs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MDB = Machine.Data.Base;
 using OTKM = OpenTK.Mathematics;
 using M3DVG = Machine._3D.Views.Geometries;
-using Machine.ViewModels.Interfaces.Links;
-using System.CodeDom;
 using System.Collections.Specialized;
 using Machine.ViewModels.Messaging;
 using Machine._3D.Views.Messages;
@@ -16,6 +9,7 @@ using MVMGEH = Machine.ViewModels.GeometryExtensions.Helpers;
 using MVMIoc = Machine.ViewModels.Ioc;
 using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
 using M3DVH = Machine._3D.Views.Helpers;
+using OpenTK.Mathematics;
 
 namespace Machine._3D.Views.Elements
 {
@@ -53,6 +47,21 @@ namespace Machine._3D.Views.Elements
             program.ModelViewProjectionMatrix.Set(model * view * projection);
 
             Geometry.Draw();
+        }
+
+        public virtual Box3 GetBound()
+        {
+            if(Geometry != null) 
+            {
+                var box = Geometry.GetBound();
+                var m = GetChainTransformation();
+
+                return box;
+            }
+            else
+            {
+                return new Box3();
+            }
         }
 
         private void AttachEvent(MVMIME.IMachineElement element)

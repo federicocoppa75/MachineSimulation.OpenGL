@@ -41,6 +41,19 @@ namespace Machine._3D.Views.Cameras
             Update();
         }
 
+        public void SetByViewBox(Box3 box)
+        {
+            var c = box.Center;
+            var s = box.Size;
+            var m = MathHelper.Max(s.X, s.Y);
+            var d = MathHelper.Max(m * 1.5f, s.Z); // 1.5 ha senze per un FOV di 45°
+
+            State.Position = c + new Vector3(0, 0, d);
+            State.LookAt = new Vector3(0, 0, -1);
+            State.Up = new Vector3(0, 1, 0);
+            Behavior.SetOrigin(c);
+        }
+
         public void SetBehavior(CameraBehavior behavior)
         {
             Behavior = behavior;

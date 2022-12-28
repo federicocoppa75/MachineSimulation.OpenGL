@@ -31,6 +31,11 @@ namespace Machine._3D.Views.Cameras
             state.LookAt.Normalize();
         }
 
+        public override void SetOrigin(Vector3 point)
+        {
+            Origin= point;
+        }
+
         public override void MouseMove(CameraState state, Vector2 delta)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed) 

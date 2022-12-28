@@ -26,5 +26,13 @@ namespace Machine.ViewModels.GeometryExtensions.Math
         }
 
         public static void Append(this ref Matrix4 m, Matrix4 v) => m = v * m;
+
+        public static Box3 Transform(this Matrix4 m, Box3 box)
+        {
+            var v = box.GetVertexes();
+            var v2 = m.Transform(v);
+
+            return v2.GetBound();
+        }
     }
 }
