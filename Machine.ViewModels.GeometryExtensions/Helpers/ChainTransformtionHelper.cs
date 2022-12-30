@@ -64,7 +64,7 @@ namespace Machine.ViewModels.GeometryExtensions.Helpers
             var et = Convert(element.Transformation);
             var lt = GetLinkTransformation(element.LinkToParent);
 
-            return lt * et * t;
+            return et * lt * t;
         }
 
         public static Matrix4 GetToolholderTransformation(IToolholderBase th)
