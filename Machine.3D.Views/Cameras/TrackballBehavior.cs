@@ -44,7 +44,7 @@ namespace Machine._3D.Views.Cameras
                     // Pan with mouse
                     HandlePan(state, delta);
 
-                    UpdateDistance(state, 0);
+                    UpdateDistanceAfterPan(state, 0);
                 }
                 else
                 {
@@ -68,6 +68,7 @@ namespace Machine._3D.Views.Cameras
         public override void MouseWheelChanged(CameraState state, float delta)
         {
             if (delta > 100) delta = 100;
+
             UpdateDistance(state, -delta);
         }
 
@@ -79,8 +80,16 @@ namespace Machine._3D.Views.Cameras
 
         protected void UpdateDistance(CameraState state, float scale)
         {
-            state.Position = Origin - (state.Position - Origin).Length * (1 + scale) * state.LookAt;
             UpdateLastDistance(state);
+
+            state.Position = Origin - (state.Position - Origin).Length * (1 + scale) * state.LookAt;
+        }
+
+        protected void UpdateDistanceAfterPan(CameraState state, float scale)
+        {
+            if (_updateLastDistance) UpdateLastDistance(state);
+
+            state.Position = Origin - _lastDistance * (1 + scale) * state.LookAt;
         }
 
         protected void UpdateDistanceAfterRotate(CameraState state, float scale)
@@ -153,14 +162,8 @@ namespace Machine._3D.Views.Cameras
             Vector3 u1 = viewZ * v1.Z + viewX * v1.X + viewY * v1.Y;
             Vector3 u2 = viewZ * v2.Z + viewX * v2.X + viewY * v2.Y;
 
-
             // Find the rotation axis and angle
             Vector3 axis = Vector3.Cross(u1, u2);
-            if (axis.LengthSquared < 1e-8)
-            {
-                return;
-            }
-
             double angle = Vector3.CalculateAngle(u1, u2);
 
             // Create the transform

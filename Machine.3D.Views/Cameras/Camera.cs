@@ -23,7 +23,8 @@ namespace Machine._3D.Views.Cameras
         public CameraState DefaultState;
         protected CameraBehavior Behavior;
  
-        public float MouseMoveSpeed = 0.05f;
+        public float MouseMoveSpeedOnRot = 0.1f;
+        public float MouseMoveSpeedOnPan = 0.005f;
         public float MouseWheelSpeed = 0.005f;
         //public float MoveSpeed = 60;
 
@@ -84,11 +85,12 @@ namespace Machine._3D.Views.Cameras
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            var mouseMoveSpeed = Keyboard.IsKeyDown(Key.LeftShift) ? MouseMoveSpeedOnPan : MouseMoveSpeedOnRot;
             var p = _getMousePosition();
             var d = p - _mousePosition;
             var s = _getViewSize();
             Behavior.SetViewSize(s.Width, s.Height);
-            Behavior.MouseMove(State, MouseMoveSpeed * new Vector2((float)d.X, (float)d.Y));
+            Behavior.MouseMove(State, mouseMoveSpeed * new Vector2((float)d.X, (float)d.Y));
 
             _mousePosition = p;
         }
