@@ -110,6 +110,7 @@ namespace Machine._3D.Views
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
+            GL.Enable(EnableCap.FramebufferSrgb);
 
             _ctrlLoaded = true;
         }
@@ -127,14 +128,15 @@ namespace Machine._3D.Views
 
             if (_ctrlLoaded)
             {
+                SetupPerspective();
+                // calculate the MVP matrix and set it to the shaders uniform
+                _baseProgram.viewPos.Set(Camera.State.Position);
+
+                _light.position = Camera.State.Position - Camera.State.LookAt * 1000;
                 _baseProgram.LightPosition.Set(_light.position);
                 _baseProgram.LightAmbient.Set(_light.ambient);
                 _baseProgram.LightDiffuse.Set(_light.diffuse);
                 _baseProgram.LightSpecular.Set(_light.specular);
-
-                SetupPerspective();
-                // calculate the MVP matrix and set it to the shaders uniform
-                _baseProgram.viewPos.Set(Camera.State.Position);
 
                 var elements = (DataContext as MainViewModel).GetElements();
 
