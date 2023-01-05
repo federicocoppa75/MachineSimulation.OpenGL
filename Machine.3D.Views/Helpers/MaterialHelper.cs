@@ -11,9 +11,9 @@ namespace Machine._3D.Views.Helpers
         {
             return new Material()
             {
-                ambient = new OTKM.Vector3(color.R / 255f, color.G / 255f, color.B / 255f),
-                diffuse = new OTKM.Vector3(color.R / 255f, color.G / 255f, color.B / 255f),
-                specular = new OTKM.Vector3(0.5f, 0.5f, 0.5f),
+                ambient = new OTKM.Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255),
+                diffuse = new OTKM.Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A/255),
+                specular = new OTKM.Vector4(0.5f, 0.5f, 0.5f, 1),
                 shininess = 32
             };
         }
@@ -35,9 +35,9 @@ namespace Machine._3D.Views.Helpers
         {
             program.material.Set(new Material()
             {
-                ambient = material.Ambient.Xyz,
-                diffuse = material.Diffuse.Xyz,
-                specular = material.Ambient.Xyz,
+                ambient = material.Ambient,
+                diffuse = material.Diffuse,
+                specular = material.Ambient,
                 shininess = material.Shininess
             });
         }

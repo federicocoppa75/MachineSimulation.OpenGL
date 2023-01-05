@@ -30,9 +30,9 @@ namespace Machine._3D.Views
     [StructLayout(LayoutKind.Sequential)]
     public struct Material : IFieldValueProvider
     {
-        public Vector3 ambient;
-        public Vector3 diffuse;
-        public Vector3 specular;
+        public Vector4 ambient;
+        public Vector4 diffuse;
+        public Vector4 specular;
         public float shininess;
 
         void IFieldValueProvider.SetFieldsValues(IFieldValueSetter setter)
@@ -127,6 +127,8 @@ namespace Machine._3D.Views
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.FramebufferSrgb);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             _ctrlLoaded = true;
         }
