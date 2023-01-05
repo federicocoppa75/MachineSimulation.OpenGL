@@ -5,6 +5,7 @@ using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,14 +22,27 @@ namespace Machine._3D.Views.Programs
         public VertexAttrib InNormal { get; protected set; }
 
         public Uniform<Matrix4> ModelViewProjectionMatrix { get; protected set; }
-        public Uniform<Vector3> MaterialAmbient { get; protected set; }
-        public Uniform<Vector3> MaterialDiffuse { get; protected set; }
-        public Uniform<Vector3> MaterialSpecular { get; protected set; }
-        public Uniform<float> MaterialShininess { get; protected set; }
-        public Uniform<Vector3> LightPosition { get; protected set; }
-        public Uniform<Vector3> LightAmbient { get; protected set; }
-        public Uniform<Vector3> LightDiffuse { get; protected set; }
-        public Uniform<Vector3> LightSpecular { get; protected set; }
+        public UniformStruct<Material> material { get; protected set; }
+        public UniformStruct<Light> light { get; protected set; }
         public Uniform<Vector3> viewPos { get; protected set; }
+
+        public BaseProgram() : base()
+        {
+            InitializaStructVariable();
+        }
+
+        public override void Link()
+        {
+            base.Link();
+
+            material.Link(nameof(material));
+            light.Link(nameof(light));
+        }
+
+        private void InitializaStructVariable()
+        {
+            material.Initialize();
+            light.Initialize();
+        }
     }
 }

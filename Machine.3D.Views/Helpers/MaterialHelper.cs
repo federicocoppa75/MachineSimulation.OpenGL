@@ -22,18 +22,24 @@ namespace Machine._3D.Views.Helpers
         {
             var m = Convert(color);
 
-            program.MaterialAmbient.Set(m.ambient);
-            program.MaterialDiffuse.Set(m.diffuse);
-            program.MaterialSpecular.Set(m.specular);
-            program.MaterialShininess.Set(m.shininess);
+            program.material.Set(new Material()
+            {
+                ambient = m.ambient,
+                diffuse = m.diffuse,
+                specular = m.specular,
+                shininess = m.shininess
+            });
         }
 
         public static void SetMaterial(BaseProgram program, MVMGEM.Material material)
         {
-            program.MaterialAmbient.Set(material.Ambient.Xyz);
-            program.MaterialDiffuse.Set(material.Diffuse.Xyz);
-            program.MaterialSpecular.Set(material.Specular.Xyz);
-            program.MaterialShininess.Set(material.Shininess);
+            program.material.Set(new Material()
+            {
+                ambient = material.Ambient.Xyz,
+                diffuse = material.Diffuse.Xyz,
+                specular = material.Ambient.Xyz,
+                shininess = material.Shininess
+            });
         }
     }
 }

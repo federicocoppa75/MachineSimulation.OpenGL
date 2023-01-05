@@ -28,21 +28,37 @@ using System.Windows.Shapes;
 namespace Machine._3D.Views
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Material
+    public struct Material : IFieldValueProvider
     {
         public Vector3 ambient;
         public Vector3 diffuse;
         public Vector3 specular;
         public float shininess;
+
+        void IFieldValueProvider.SetFieldsValues(IFieldValueSetter setter)
+        {
+            setter.Set(nameof(ambient), ambient);
+            setter.Set(nameof(diffuse), diffuse);
+            setter.Set(nameof(specular), specular);
+            setter.Set(nameof(shininess), shininess);
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct Light
+    public struct Light : IFieldValueProvider
     {
         public Vector3 position;
         public Vector3 ambient;
         public Vector3 diffuse;
         public Vector3 specular;
+
+        void IFieldValueProvider.SetFieldsValues(IFieldValueSetter setter)
+        {
+            setter.Set(nameof(position), position);
+            setter.Set(nameof(ambient), ambient);
+            setter.Set(nameof(diffuse), diffuse);
+            setter.Set(nameof(specular), specular);
+        }
     }
 
 
@@ -133,10 +149,8 @@ namespace Machine._3D.Views
                 _baseProgram.viewPos.Set(Camera.State.Position);
 
                 _light.position = Camera.State.Position - Camera.State.LookAt * 1000;
-                _baseProgram.LightPosition.Set(_light.position);
-                _baseProgram.LightAmbient.Set(_light.ambient);
-                _baseProgram.LightDiffuse.Set(_light.diffuse);
-                _baseProgram.LightSpecular.Set(_light.specular);
+                
+                _baseProgram.light.Set(_light);
 
                 var elements = (DataContext as MainViewModel).GetElements();
 

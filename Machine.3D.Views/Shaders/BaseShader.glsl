@@ -21,18 +21,6 @@ void main()
 in vec3 Normal;
 in vec3 FragPos;
 
-uniform vec3 MaterialAmbient;
-uniform vec3 MaterialDiffuse;
-uniform vec3 MaterialSpecular;
-uniform float MaterialShininess;
-uniform vec3 LightPosition;
-uniform vec3 LightAmbient;
-uniform vec3 LightDiffuse;
-uniform vec3 LightSpecular;
-
-uniform vec3 viewPos;
-out vec4 FragColor;
-
 struct Material {
     vec3 ambient;
     vec3 diffuse;
@@ -46,21 +34,14 @@ struct Light {
     vec3 specular;
 };
 
+uniform Material material;
+uniform Light light;
+
+uniform vec3 viewPos;
+out vec4 FragColor;
+
 void main()
 {
-    Material material;
-    Light light;
-
-    material.ambient = MaterialAmbient;
-    material.diffuse = MaterialDiffuse;
-    material.specular = MaterialSpecular;
-    material.shininess = MaterialShininess;
-    
-    light.position = LightPosition;
-    light.ambient = LightAmbient;
-    light.diffuse = LightDiffuse;
-    light.specular = LightSpecular;  
-
     //ambient
     vec3 ambient = light.ambient * material.ambient; //Remember to use the material here.
 
