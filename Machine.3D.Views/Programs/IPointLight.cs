@@ -8,6 +8,6 @@ namespace Machine._3D.Views.Programs
 {
     internal interface IPointLight
     {
-        UniformStruct<Light> light { get; }
+        UniformStruct<PointLight> light { get; }
     }
 }

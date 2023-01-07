@@ -23,7 +23,7 @@ namespace Machine._3D.Views.Programs
 
         public Uniform<Matrix4> ModelViewProjectionMatrix { get; protected set; }
         public UniformStruct<Material> material { get; protected set; }
-        public UniformStruct<Light> light { get; protected set; }
+        public UniformStruct<PointLight> light { get; protected set; }
         public Uniform<Vector3> viewPos { get; protected set; }
 
         public PointLightProgram() : base()

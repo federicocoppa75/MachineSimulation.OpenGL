@@ -45,7 +45,7 @@ namespace Machine._3D.Views
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct Light : IFieldValueProvider
+    public struct PointLight : IFieldValueProvider
     {
         public Vector3 position;
         public Vector3 ambient;
@@ -78,7 +78,7 @@ namespace Machine._3D.Views
         protected Matrix4 View;
         protected Matrix4 Projection;
 
-        protected Light _light = new Light()
+        protected PointLight _pointlight = new PointLight()
         {
             position = new Vector3(0, 0, 1000),
             ambient = new Vector3(0.2f),
@@ -204,9 +204,9 @@ namespace Machine._3D.Views
 
         private void SetLight()
         {
-            _light.position = Camera.State.Position - Camera.State.LookAt * 10000;
+            _pointlight.position = Camera.State.Position - Camera.State.LookAt * 10000;
 
-            (_program as IPointLight).light.Set(_light);
+            (_program as IPointLight).light.Set(_pointlight);
         }
     }
 }
