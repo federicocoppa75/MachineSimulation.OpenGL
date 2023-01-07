@@ -32,6 +32,9 @@ struct Light {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    float constant;
+    float linear;
+    float quadratic;
 };
 
 uniform Material material;
@@ -57,9 +60,16 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec4 specular = vec4(light.specular, 1.0) * (spec * material.specular); //Remember to use the material here.
 
-    //Now the result sum has changed a bit, since we now set the objects color in each element, we now dont have to
-    //multiply the light with the object here, instead we do it for each element seperatly. This allows much better control
-    //over how each element is applied to different objects.
-    vec4 result = ambient + diffuse + specular;
+    //attenuation
+    //The attenuation is the term we use when talking about how dim the light gets over distance
+    float distance    = length(light.position - FragPos) / 1000.0; // conversione da mm a metri
+    //This formula is the so called attenuation formula used to calculate the attenuation
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+    vec3 a = ambient.xyz * attenuation;//Remember the ambient is where the light dosen't hit, this means the spotlight shouldn't be applied
+    vec3 d = diffuse.xyz * attenuation;
+    vec3 s = specular.xyz * attenuation;
+
+    vec4 result = vec4(a, ambient[3]) + vec4(d, diffuse[3]) + vec4(s, specular[3]);
     FragColor = result;
 }

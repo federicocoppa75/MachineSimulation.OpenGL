@@ -51,6 +51,9 @@ namespace Machine._3D.Views
         public Vector3 ambient;
         public Vector3 diffuse;
         public Vector3 specular;
+        public float constant;
+        public float linear;
+        public float quadratic;
 
         void IFieldValueProvider.SetFieldsValues(IFieldValueSetter setter)
         {
@@ -58,6 +61,9 @@ namespace Machine._3D.Views
             setter.Set(nameof(ambient), ambient);
             setter.Set(nameof(diffuse), diffuse);
             setter.Set(nameof(specular), specular);
+            setter.Set(nameof(constant), constant);
+            setter.Set(nameof(linear), linear);
+            setter.Set(nameof(quadratic), quadratic);
         }
     }
 
@@ -109,7 +115,10 @@ namespace Machine._3D.Views
             position = new Vector3(0, 0, 1000),
             ambient = new Vector3(0.2f),
             diffuse = new Vector3(0.5f),
-            specular = new Vector3(1.0f)
+            specular = new Vector3(1.0f),
+            constant = 1.0f,
+            linear = 0.09f,
+            quadratic = 0.032f,
         };
 
         protected SpotLight _spotLight = new SpotLight()
@@ -151,8 +160,8 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
         {
-            //_program = ProgramFactory.Create<PointLightProgram>();
-            _program = ProgramFactory.Create<SpotLightProgram>();
+            _program = ProgramFactory.Create<PointLightProgram>();
+            //_program = ProgramFactory.Create<SpotLightProgram>();
             _program.Use();
 
             DataContext = new MainViewModel(_program);
@@ -245,13 +254,13 @@ namespace Machine._3D.Views
 
         private void SetLight()
         {
-            //SetPointLight();
-            SetSpotLight();
+            SetPointLight();
+            //SetSpotLight();
         }
 
         private void SetPointLight()
         {
-            _pointlight.position = Camera.State.Position - Camera.State.LookAt * 10000;
+            _pointlight.position = Camera.State.Position;
 
             (_program as IPointLight).light.Set(_pointlight);
         }
