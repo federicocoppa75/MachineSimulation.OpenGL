@@ -18,7 +18,7 @@ namespace Machine._3D.Views.Helpers
             };
         }
 
-        public static void SetMaterial(BaseProgram program, MDB.Color color)
+        public static void SetMaterial(IProgram program, MDB.Color color)
         {
             var m = Convert(color);
 
@@ -31,7 +31,7 @@ namespace Machine._3D.Views.Helpers
             });
         }
 
-        public static void SetMaterial(BaseProgram program, MVMGEM.Material material)
+        public static void SetMaterial(IProgram program, MVMGEM.Material material)
         {
             program.material.Set(new Material()
             {

@@ -25,7 +25,7 @@ namespace Machine._3D.Views
 {
     class MainViewModel : BaseElementsCollectionViewModel
     {
-        private BaseProgram _program;
+        private IProgram _program;
         Dictionary<string, M3DVG.Mesh> _meshMap = new Dictionary<string, M3DVG.Mesh>();
         Dictionary<IMachineElement, ElementViewModel> _elementMap = new Dictionary<IMachineElement, ElementViewModel>();
 
@@ -34,7 +34,7 @@ namespace Machine._3D.Views
         public IStepsExecutionController StepsExecutionController { get; protected set; }
         public IInvertersController InverterController { get; protected set; } = new InverterControllerViewModel();
 
-        public MainViewModel(BaseProgram program) : base()
+        public MainViewModel(IProgram program) : base()
         {
             _program = program;
 

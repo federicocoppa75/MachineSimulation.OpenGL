@@ -36,7 +36,7 @@ namespace Machine._3D.Views.Elements.SectionedPanel
 
         public override bool IsVisible => IsVisibleBase();
 
-        public override void Draw(BaseProgram program, Matrix4 projection, Matrix4 view)
+        public override void Draw(IProgram program, Matrix4 projection, Matrix4 view)
         {
             if (_panelMesh == null)
             {
@@ -54,9 +54,9 @@ namespace Machine._3D.Views.Elements.SectionedPanel
 
         protected abstract MVMGEM.Material GetMaterial();
 
-        protected void SetMaterial(BaseProgram program) => M3DVH.MaterialHelper.SetMaterial(program, GetMaterial());
+        protected void SetMaterial(IProgram program) => M3DVH.MaterialHelper.SetMaterial(program, GetMaterial());
 
-        private void CheckUpdate(BaseProgram program)
+        private void CheckUpdate(IProgram program)
         {
             if (!IsChanged()) return;
             if (_sectionSurfaces.Count == 0) return;
@@ -97,7 +97,7 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             });
         }
 
-        private Task CheckUpdateAsync(BaseProgram program)
+        private Task CheckUpdateAsync(IProgram program)
         {
             return Task.Run(() =>
             {

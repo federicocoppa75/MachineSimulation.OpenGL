@@ -15,7 +15,7 @@ namespace Machine._3D.Views.Elements.SectionedPanel
 
         public override bool IsVisible => IsVisibleBase();
 
-        public override void Draw(BaseProgram program, Matrix4 projection, Matrix4 view)
+        public override void Draw(IProgram program, Matrix4 projection, Matrix4 view)
         {
             _innerPanel.Draw(program, projection, view);
             _outerPanel.Draw(program, projection, view);

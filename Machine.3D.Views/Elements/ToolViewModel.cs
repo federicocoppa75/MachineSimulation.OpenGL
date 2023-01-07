@@ -12,14 +12,14 @@ namespace Machine._3D.Views.Elements
 
         public override bool IsVisible => IsVisibleBase();
 
-        public override void Draw(BaseProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
+        public override void Draw(IProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
         {
             base.Draw(program, projection, view);
 
             if (ConeGeometry!= null) DrawCone(program, projection, view);
         }
 
-        protected void DrawCone(BaseProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
+        protected void DrawCone(IProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
         {
             var t = Element as MVMME.ToolViewModel;
 

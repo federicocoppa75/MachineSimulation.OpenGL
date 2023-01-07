@@ -9,7 +9,6 @@ using MVMGEH = Machine.ViewModels.GeometryExtensions.Helpers;
 using MVMIoc = Machine.ViewModels.Ioc;
 using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
 using M3DVH = Machine._3D.Views.Helpers;
-using OpenTK.Mathematics;
 
 namespace Machine._3D.Views.Elements
 {
@@ -40,7 +39,7 @@ namespace Machine._3D.Views.Elements
 
         protected bool IsModelFileNameValid() => !string.IsNullOrEmpty(Element.ModelFile);
 
-        public virtual void Draw(BaseProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
+        public virtual void Draw(IProgram program, OTKM.Matrix4 projection, OTKM.Matrix4 view)
         {
             M3DVH.MaterialHelper.SetMaterial(program, Element.Color);
             OTKM.Matrix4 model = GetChainTransformation();
@@ -49,7 +48,7 @@ namespace Machine._3D.Views.Elements
             Geometry.Draw();
         }
 
-        public virtual Box3 GetBound()
+        public virtual OTKM.Box3 GetBound()
         {
             if(Geometry != null) 
             {
@@ -60,7 +59,7 @@ namespace Machine._3D.Views.Elements
             }
             else
             {
-                return new Box3();
+                return new OTKM.Box3();
             }
         }
 

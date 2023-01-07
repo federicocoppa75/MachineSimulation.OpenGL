@@ -20,7 +20,7 @@ namespace Machine._3D.Views.Geometries
         private Buffer<uint> _ebo;
         private bool disposedValue;
 
-        public Mesh(Vertex[] vertexes, uint[] indexes, BaseProgram program)
+        public Mesh(Vertex[] vertexes, uint[] indexes, IProgram program)
         {
             _vbo = new Buffer<Vertex>();
             _vbo.Init(BufferTarget.ArrayBuffer, vertexes);

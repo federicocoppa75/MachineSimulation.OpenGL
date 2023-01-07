@@ -13,7 +13,7 @@ namespace Machine._3D.Views.Programs
 {
     [VertexShaderSource("BaseShader.Vertex")]
     [FragmentShaderSource("BaseShader.Fragment")]
-    class BaseProgram : ObjectTK.Shaders.Program
+    class BaseProgram : ObjectTK.Shaders.Program, IProgram, IPointLight
     {
         [VertexAttrib(3, VertexAttribPointerType.Float)]
         public VertexAttrib InPosition { get; protected set; }

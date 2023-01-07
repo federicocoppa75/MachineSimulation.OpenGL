@@ -72,7 +72,7 @@ namespace Machine._3D.Views
         int _frames;
         double _elapsed;
         private bool _ctrlLoaded = false;
-        private BaseProgram _baseProgram;
+        private IProgram _baseProgram;
 
         protected Cameras.Camera Camera;
         protected Matrix4 View;
@@ -135,7 +135,7 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlUnloaded(object sender, RoutedEventArgs e)
         {
-            _baseProgram.Dispose();
+            (_baseProgram as IDisposable)?.Dispose();
         }
 
         private void OnGlViewCtrlRender(TimeSpan obj)
@@ -150,9 +150,7 @@ namespace Machine._3D.Views
                 // calculate the MVP matrix and set it to the shaders uniform
                 _baseProgram.viewPos.Set(Camera.State.Position);
 
-                _light.position = Camera.State.Position - Camera.State.LookAt * 1000;
-                
-                _baseProgram.light.Set(_light);
+                SetLight();
 
                 var elements = (DataContext as MainViewModel).GetElements();
 
@@ -200,8 +198,15 @@ namespace Machine._3D.Views
         {
             // setup perspective projection
             var aspectRatio = ActualWidth / ActualHeight;
-            Projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)aspectRatio, 0.1f, 10000);
+            Projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)aspectRatio, 0.1f, 20000);
             View = Camera.GetCameraTransform();
+        }
+
+        private void SetLight()
+        {
+            _light.position = Camera.State.Position - Camera.State.LookAt * 10000;
+
+            (_baseProgram as IPointLight).light.Set(_light);
         }
     }
 }
