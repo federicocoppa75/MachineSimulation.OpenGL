@@ -44,6 +44,22 @@ namespace Machine._3D.Views
         }
     }
 
+    public struct DirectionalLight : IFieldValueProvider
+    {
+        public Vector3 direction;
+        public Vector3 ambient;
+        public Vector3 diffuse;
+        public Vector3 specular;
+
+        void IFieldValueProvider.SetFieldsValues(IFieldValueSetter setter)
+        {
+            setter.Set(nameof(direction), direction);
+            setter.Set(nameof(ambient), ambient);
+            setter.Set(nameof(diffuse), diffuse);
+            setter.Set(nameof(specular), specular);
+        }
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public struct PointLight : IFieldValueProvider
     {
@@ -110,6 +126,14 @@ namespace Machine._3D.Views
         protected Matrix4 View;
         protected Matrix4 Projection;
 
+        protected DirectionalLight _directionalLight = new DirectionalLight()
+        {
+            direction = -Vector3.UnitZ,
+            ambient = new Vector3(0.2f),
+            diffuse = new Vector3(0.5f),
+            specular = new Vector3(1.0f),
+        };
+
         protected PointLight _pointlight = new PointLight()
         {
             position = new Vector3(0, 0, 1000),
@@ -160,8 +184,9 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
         {
-            _program = ProgramFactory.Create<PointLightProgram>();
+            //_program = ProgramFactory.Create<PointLightProgram>();
             //_program = ProgramFactory.Create<SpotLightProgram>();
+            _program = ProgramFactory.Create<DirectionalLightProgram>();
             _program.Use();
 
             DataContext = new MainViewModel(_program);
@@ -254,8 +279,9 @@ namespace Machine._3D.Views
 
         private void SetLight()
         {
-            SetPointLight();
+            //SetPointLight();
             //SetSpotLight();
+            SetDirectionalLight();
         }
 
         private void SetPointLight()
@@ -271,6 +297,13 @@ namespace Machine._3D.Views
             _spotLight.direction = Camera.State.LookAt;
 
             (_program as ISpotLight).light.Set(_spotLight);
+        }
+
+        private void SetDirectionalLight()
+        {
+            _directionalLight.direction= Camera.State.LookAt;
+
+            (_program as IDirectionalLight).light.Set(_directionalLight);
         }
     }
 }
