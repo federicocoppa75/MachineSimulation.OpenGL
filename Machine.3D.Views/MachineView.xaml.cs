@@ -72,7 +72,7 @@ namespace Machine._3D.Views
         int _frames;
         double _elapsed;
         private bool _ctrlLoaded = false;
-        private IProgram _baseProgram;
+        private IProgram _program;
 
         protected Cameras.Camera Camera;
         protected Matrix4 View;
@@ -111,10 +111,10 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
         {
-            _baseProgram = ProgramFactory.Create<PointLightProgram>();
-            _baseProgram.Use();
+            _program = ProgramFactory.Create<PointLightProgram>();
+            _program.Use();
 
-            DataContext = new MainViewModel(_baseProgram);
+            DataContext = new MainViewModel(_program);
 
             Camera = new Cameras.Camera();
             //Camera.SetBehavior(new Cameras.ThirdPersonBehavior());
@@ -135,7 +135,7 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlUnloaded(object sender, RoutedEventArgs e)
         {
-            (_baseProgram as IDisposable)?.Dispose();
+            (_program as IDisposable)?.Dispose();
         }
 
         private void OnGlViewCtrlRender(TimeSpan obj)
@@ -148,7 +148,7 @@ namespace Machine._3D.Views
             {
                 SetupPerspective();
                 // calculate the MVP matrix and set it to the shaders uniform
-                _baseProgram.viewPos.Set(Camera.State.Position);
+                _program.viewPos.Set(Camera.State.Position);
 
                 SetLight();
 
@@ -158,7 +158,7 @@ namespace Machine._3D.Views
                 {
                     if(!item.IsVisible) continue;
 
-                    item.Draw(_baseProgram, Projection, View);
+                    item.Draw(_program, Projection, View);
                 }
 
                 //_program.Use();
@@ -206,7 +206,7 @@ namespace Machine._3D.Views
         {
             _light.position = Camera.State.Position - Camera.State.LookAt * 10000;
 
-            (_baseProgram as IPointLight).light.Set(_light);
+            (_program as IPointLight).light.Set(_light);
         }
     }
 }
