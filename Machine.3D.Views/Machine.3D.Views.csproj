@@ -17,15 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shaders\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Machine.ViewModels.GeometryExtensions\Machine.ViewModels.GeometryExtensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Shaders\BaseShader.glsl">
+    <None Update="Shaders\PointLightShader.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

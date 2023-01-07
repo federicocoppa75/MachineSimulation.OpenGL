@@ -2,7 +2,7 @@
 #version 140
 
 -- Vertex
-#include BaseShader.Version
+#include PointLightShader.Version
 in vec3 InPosition;
 in vec3 InNormal;
 uniform mat4 ModelViewProjectionMatrix; 
@@ -17,7 +17,7 @@ void main()
 }
 
 -- Fragment
-#include BaseShader.Version
+#include PointLightShader.Version
 in vec3 Normal;
 in vec3 FragPos;
 

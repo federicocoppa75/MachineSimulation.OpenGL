@@ -111,7 +111,7 @@ namespace Machine._3D.Views
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
         {
-            _baseProgram = ProgramFactory.Create<BaseProgram>();
+            _baseProgram = ProgramFactory.Create<PointLightProgram>();
             _baseProgram.Use();
 
             DataContext = new MainViewModel(_baseProgram);

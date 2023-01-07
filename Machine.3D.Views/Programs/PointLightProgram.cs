@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Machine._3D.Views.Programs
 {
-    [VertexShaderSource("BaseShader.Vertex")]
-    [FragmentShaderSource("BaseShader.Fragment")]
-    class BaseProgram : ObjectTK.Shaders.Program, IProgram, IPointLight
+    [VertexShaderSource("PointLightShader.Vertex")]
+    [FragmentShaderSource("PointLightShader.Fragment")]
+    class PointLightProgram : ObjectTK.Shaders.Program, IProgram, IPointLight
     {
         [VertexAttrib(3, VertexAttribPointerType.Float)]
         public VertexAttrib InPosition { get; protected set; }
@@ -26,7 +26,7 @@ namespace Machine._3D.Views.Programs
         public UniformStruct<Light> light { get; protected set; }
         public Uniform<Vector3> viewPos { get; protected set; }
 
-        public BaseProgram() : base()
+        public PointLightProgram() : base()
         {
             InitializaStructVariable();
         }
