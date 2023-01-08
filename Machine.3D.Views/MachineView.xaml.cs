@@ -128,7 +128,7 @@ namespace Machine._3D.Views
 
         protected DirectionalLight _directionalLight = new DirectionalLight()
         {
-            direction = -Vector3.UnitZ,
+            direction = new Vector3(-3.0f, -2.0f, -1.0f),//-Vector3.UnitZ,
             ambient = new Vector3(0.2f),
             diffuse = new Vector3(0.5f),
             specular = new Vector3(1.0f),
@@ -143,6 +143,50 @@ namespace Machine._3D.Views
             constant = 1.0f,
             linear = 0.09f,
             quadratic = 0.032f,
+        };
+
+        protected PointLight[] _pointlights = new PointLight[]
+        {
+            new PointLight()
+            {
+                position = new Vector3(10000, -5000, 2000),
+                ambient = new Vector3(0.2f),
+                diffuse = new Vector3(0.5f),
+                specular = new Vector3(1.0f),
+                constant = 1.0f,
+                linear = 0.18f,
+                quadratic = 0.064f
+            },
+            new PointLight()
+            {
+                position = new Vector3(-10000, 5000, 2000),
+                ambient = new Vector3(0.2f),
+                diffuse = new Vector3(0.5f),
+                specular = new Vector3(1.0f),
+                constant = 1.0f,
+                linear = 0.18f,
+                quadratic = 0.064f
+            },
+            new PointLight()
+            {
+                position = new Vector3(5000, -10000, -2000),
+                ambient = new Vector3(0.2f),
+                diffuse = new Vector3(0.5f),
+                specular = new Vector3(1.0f),
+                constant = 1.0f,
+                linear = 0.18f,
+                quadratic = 0.064f
+            },
+            new PointLight()
+            {
+                position = new Vector3(-5000, 10000, -2000),
+                ambient = new Vector3(0.2f),
+                diffuse = new Vector3(0.5f),
+                specular = new Vector3(1.0f),
+                constant = 1.0f,
+                linear = 0.18f,
+                quadratic = 0.064f
+            }
         };
 
         protected SpotLight _spotLight = new SpotLight()
@@ -186,7 +230,8 @@ namespace Machine._3D.Views
         {
             //_program = ProgramFactory.Create<PointLightProgram>();
             //_program = ProgramFactory.Create<SpotLightProgram>();
-            _program = ProgramFactory.Create<DirectionalLightProgram>();
+            //_program = ProgramFactory.Create<DirectionalLightProgram>();
+            _program = ProgramFactory.Create<MultiLightProgram>();
             _program.Use();
 
             DataContext = new MainViewModel(_program);
@@ -281,7 +326,20 @@ namespace Machine._3D.Views
         {
             //SetPointLight();
             //SetSpotLight();
-            SetDirectionalLight();
+            //SetDirectionalLight();
+            SetMultiLight();
+        }
+
+        private void SetMultiLight()
+        {
+            _spotLight.position = Camera.State.Position;
+            _spotLight.direction = Camera.State.LookAt;
+
+            var p = _program as IMultiLight;
+
+            p.dirLight.Set(_directionalLight);
+            p.spotLight.Set(_spotLight);
+            p.pointLights.Set(_pointlights);
         }
 
         private void SetPointLight()
