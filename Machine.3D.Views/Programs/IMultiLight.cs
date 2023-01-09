@@ -8,8 +8,8 @@ namespace Machine._3D.Views.Programs
 {
     internal interface IMultiLight
     {
-        UniformStruct<DirectionalLight> dirLight { get; }
         UniformStruct<SpotLight> spotLight { get; }
+        UniformStructArray<DirectionalLight> dirLights { get; }
         UniformStructArray<PointLight> pointLights { get; }
     }
 }

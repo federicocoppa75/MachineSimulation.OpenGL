@@ -22,8 +22,8 @@ namespace Machine._3D.Views.Programs
 
         public Uniform<Matrix4> ModelViewProjectionMatrix { get; protected set; }
         public UniformStruct<Material> material { get; protected set; }
-        public UniformStruct<DirectionalLight> dirLight { get; protected set; }
         public UniformStruct<SpotLight> spotLight { get; protected set; }
+        public UniformStructArray<DirectionalLight> dirLights { get; protected set; }
         public UniformStructArray<PointLight> pointLights { get; protected set; }
 
         public Uniform<Vector3> viewPos { get; protected set; }
@@ -38,16 +38,16 @@ namespace Machine._3D.Views.Programs
             base.Link();
 
             material.Link(nameof(material));
-            dirLight.Link(nameof(dirLight));
             spotLight.Link(nameof(spotLight));
+            dirLights.Link(nameof(dirLights));
             pointLights.Link(nameof(pointLights));
         }
 
         private void InitializaStructVariable()
         {
             material.Initialize();
-            dirLight.Initialize();
             spotLight.Initialize();
+            dirLights.Initialize(3);
             pointLights.Initialize(4);
         }
     }

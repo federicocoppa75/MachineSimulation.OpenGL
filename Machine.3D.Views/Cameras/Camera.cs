@@ -14,7 +14,6 @@ namespace Machine._3D.Views.Cameras
 {
     public class Camera
     {
-        bool _firstMouseMove = true;
         System.Windows.Point _mousePosition;
         private Func<System.Windows.Point> _getMousePosition;
         private Func<System.Windows.Size> _getViewSize;

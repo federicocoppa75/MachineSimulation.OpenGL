@@ -145,47 +145,72 @@ namespace Machine._3D.Views
             quadratic = 0.032f,
         };
 
+        protected DirectionalLight[] _directionalLights = new DirectionalLight[]
+        {
+            new DirectionalLight() 
+            {
+                direction = new Vector3(-2.0f, -3.0f, -1.0f),
+                ambient = new Vector3(0.1f),
+                diffuse = new Vector3(0.3f),
+                specular = new Vector3(1.0f),
+            },
+            new DirectionalLight()
+            {
+                direction = new Vector3(-2.0f, 3.0f, -1.0f),
+                ambient = new Vector3(0.1f),
+                diffuse = new Vector3(0.3f),
+                specular = new Vector3(1.0f),
+            },
+            new DirectionalLight()
+            {
+                direction = new Vector3(3.5f, -0.5f, -1.0f),
+                ambient = new Vector3(0.1f),
+                diffuse = new Vector3(0.3f),
+                specular = new Vector3(1.0f),
+            },
+        };
+
         protected PointLight[] _pointlights = new PointLight[]
         {
             new PointLight()
             {
-                position = new Vector3(10000, -5000, 2000),
+                position = new Vector3(2000, -1000, 1000),
                 ambient = new Vector3(0.2f),
                 diffuse = new Vector3(0.5f),
                 specular = new Vector3(1.0f),
                 constant = 1.0f,
-                linear = 0.18f,
-                quadratic = 0.064f
+                linear = 0.09f,
+                quadratic = 0.032f
             },
             new PointLight()
             {
-                position = new Vector3(-10000, 5000, 2000),
+                position = new Vector3(-2000, 1000, 1000),
                 ambient = new Vector3(0.2f),
                 diffuse = new Vector3(0.5f),
                 specular = new Vector3(1.0f),
                 constant = 1.0f,
                 linear = 0.18f,
-                quadratic = 0.064f
+                quadratic = 0.032f
             },
             new PointLight()
             {
-                position = new Vector3(5000, -10000, -2000),
+                position = new Vector3(-2000, -1000, 1000),
                 ambient = new Vector3(0.2f),
                 diffuse = new Vector3(0.5f),
                 specular = new Vector3(1.0f),
                 constant = 1.0f,
-                linear = 0.18f,
-                quadratic = 0.064f
+                linear = 0.09f,
+                quadratic = 0.032f
             },
             new PointLight()
             {
-                position = new Vector3(-5000, 10000, -2000),
+                position = new Vector3(2000, 1000, 1000),
                 ambient = new Vector3(0.2f),
                 diffuse = new Vector3(0.5f),
                 specular = new Vector3(1.0f),
                 constant = 1.0f,
-                linear = 0.18f,
-                quadratic = 0.064f
+                linear = 0.09f,
+                quadratic = 0.032f
             }
         };
 
@@ -337,8 +362,9 @@ namespace Machine._3D.Views
 
             var p = _program as IMultiLight;
 
-            p.dirLight.Set(_directionalLight);
+            //p.dirLight.Set(_directionalLight);
             p.spotLight.Set(_spotLight);
+            p.dirLights.Set(_directionalLights);
             p.pointLights.Set(_pointlights);
         }
 

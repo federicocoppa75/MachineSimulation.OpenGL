@@ -56,8 +56,9 @@ struct SpotLight {
 };
 
 uniform Material material;
-uniform DirLight dirLight;
 uniform SpotLight spotLight;
+#define NR_DIR_LIGHT 3
+uniform DirLight dirLights[NR_DIR_LIGHT];
 #define NR_POINT_LIGHTS 4
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 
@@ -76,15 +77,25 @@ void main()
     vec3 viewDir = normalize(viewPos - FragPos);
 
     //phase 1: Directional lighting
-    vec4 result = CalcDirLight(dirLight, norm, viewDir);
+    vec4 result;
+    vec4 dLight;
+    for(int i = 0; i < NR_DIR_LIGHT; i++)
+        dLight += CalcDirLight(dirLights[i], norm, viewDir);
+
+    result += dLight / NR_DIR_LIGHT;
+
     //phase 2: Point lights
+    vec4 ptLight;
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+        ptLight += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+
+    result += ptLight / NR_POINT_LIGHTS;
+
     //phase 3: Spot light
     result += CalcSpotLight(spotLight, norm, FragPos, viewDir);  
     
     // la componente alpha fa normalizzata a causa della sommatoria dei contributi
-    result[3] = result[3] / (NR_POINT_LIGHTS + 2);
+    result[3] = result[3] / 3;
 
     FragColor = result;
 }
