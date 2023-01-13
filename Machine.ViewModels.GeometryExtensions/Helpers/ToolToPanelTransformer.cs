@@ -9,10 +9,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using MDB = Machine.Data.Base;
-using MVMME = Machine.ViewModels.MachineElements;
 using MDIT = Machine.Data.Interfaces.Tools;
 using MRI = MaterialRemove.Interfaces;
 using SMath = System.Math;
+using MVMIB = Machine.ViewModels.Interfaces.Bridge;
 
 
 namespace Machine.ViewModels.GeometryExtensions.Helpers
@@ -109,7 +109,7 @@ namespace Machine.ViewModels.GeometryExtensions.Helpers
 
         private Task<int> ApplayToolAsync(IToolElement tool, Vector3 position, Vector3 direction)
         {
-            var t = (tool as MVMME.ToolViewModel).Tool;
+            var t = (tool as MVMIB.IToolDataProxy).Tool;
 
             //if (t is MDT.DiskTool dt) return ApplyToolAsync(dt, position, direction);
             //else if (t is MDT.DiskOnConeTool doct) return ApplyToolAsync(doct, position, direction);
@@ -121,7 +121,7 @@ namespace Machine.ViewModels.GeometryExtensions.Helpers
 
         private void ApplayTool(IToolElement tool, Vector3 position, Vector3 direction)
         {
-            var t = (tool as MVMME.ToolViewModel).Tool;
+            var t = (tool as MVMIB.IToolDataProxy).Tool;
 
             //if (t is MDT.DiskTool dt) ApplyTool(dt, position, direction);
             //else if (t is MDT.DiskOnConeTool doct) ApplyTool(doct, position, direction);

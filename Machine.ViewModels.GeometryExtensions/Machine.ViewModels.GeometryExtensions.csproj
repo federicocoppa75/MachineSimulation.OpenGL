@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FC75.Machine.ViewModels" Version="2.5.0" />
     <PackageReference Include="FC75.Machine.ViewModels.Interfaces" Version="2.5.0" />
     <PackageReference Include="FC75.Machine.ViewModels.Interfaces.Bridge" Version="2.5.0" />
     <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.5.0" />

@@ -1,6 +1,4 @@
 ﻿using Machine.ViewModels.Interfaces;
-using Machine.ViewModels.MachineElements.Collider;
-using Machine.ViewModels.MachineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
