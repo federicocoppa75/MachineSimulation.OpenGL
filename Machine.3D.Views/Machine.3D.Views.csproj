@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AssimpNet" Version="4.1.0" />
-    <PackageReference Include="FC75.Machine.ViewModels" Version="2.3.0" />
+    <PackageReference Include="FC75.Machine.ViewModels" Version="2.4.0" />
     <PackageReference Include="FC75.Machine.Views.Converters" Version="2.3.0" />
     <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.3.0" />
     <PackageReference Include="ObjectTK-JB" Version="1.1.1" />

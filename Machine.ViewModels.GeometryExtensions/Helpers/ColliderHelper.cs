@@ -7,15 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
+using Machine.ViewModels.Interfaces.Helpers;
+using Machine.ViewModels.Interfaces.MachineElements;
 
 namespace Machine.ViewModels.GeometryExtensions.Helpers
 {
     internal class ColliderHelper : BaseColliderHelper, IColliderHelper
     {
-        ColliderElementViewModel _collider;
-        PanelViewModel _panel;
+        IColliderElement _collider;
+        IPanelElement _panel;
 
-        public ColliderHelper(ColliderElementViewModel collider, PanelViewModel panel)
+        public ColliderHelper(IColliderElement collider, IPanelElement panel)
         {
             _collider = collider;
             _panel = panel;
