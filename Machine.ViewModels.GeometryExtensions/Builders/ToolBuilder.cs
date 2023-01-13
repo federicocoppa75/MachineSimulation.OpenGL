@@ -1,4 +1,5 @@
 ﻿using Machine.Data.Interfaces.Tools;
+using Machine.ViewModels.Interfaces.Bridge;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Machine.ViewModels.GeometryExtensions.Builders
     {
         public static void Build(MVMIM.IMachineElement tool, out Vector3[] vertexes, out uint[] indexes, out Vector3[] normals)
         {
-            var t = tool as ViewModels.MachineElements.ToolViewModel;
+            var t = tool as IToolDataProxy;
 
             if (t.Tool is ICountersinkTool cst) Build(cst, out vertexes, out indexes, out normals);
             else if (t.Tool is IDiskOnConeTool dct) Build(dct, out vertexes, out indexes, out normals);
