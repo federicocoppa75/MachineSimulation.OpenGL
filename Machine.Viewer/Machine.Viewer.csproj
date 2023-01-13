@@ -8,14 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FC75.Machine.DataSource.File.Json" Version="2.3.0" />
-    <PackageReference Include="FC75.Machine.Steps.ViewModels.Extensions" Version="2.3.0" />
-    <PackageReference Include="FC75.Machine.StepsSource.File.Iso" Version="2.3.0" />
-    <PackageReference Include="FC75.Machine.StepsSource.File.Msteps" Version="2.3.0" />
-    <PackageReference Include="FC75.Machine.ViewModels" Version="2.4.0" />
-    <PackageReference Include="FC75.Machine.Views" Version="2.3.0" />
-    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.3.0" />
-    <PackageReference Include="FC75.MaterialRemove.Machine.Bridge" Version="2.3.0" />
+    <PackageReference Include="FC75.Machine.DataSource.File.Json" Version="2.5.0" />
+    <PackageReference Include="FC75.Machine.Steps.ViewModels.Extensions" Version="2.5.0" />
+    <PackageReference Include="FC75.Machine.StepsSource.File.Iso" Version="2.5.0" />
+    <PackageReference Include="FC75.Machine.StepsSource.File.Msteps" Version="2.5.0" />
+    <PackageReference Include="FC75.Machine.ViewModels" Version="2.5.0" />
+    <PackageReference Include="FC75.Machine.Views" Version="2.5.0" />
+    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.5.0" />
+    <PackageReference Include="FC75.MaterialRemove.Machine.Bridge" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
