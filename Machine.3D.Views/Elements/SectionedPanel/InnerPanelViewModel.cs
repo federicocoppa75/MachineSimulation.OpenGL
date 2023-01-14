@@ -1,4 +1,5 @@
 ﻿using Machine._3D.Views.Programs;
+using MaterialRemove.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,20 @@ namespace Machine._3D.Views.Elements.SectionedPanel
 
             foreach (var section in panel.Sections)
             {
-                _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(section.Volume));
+                if (section.Volume != null) Add(section.Volume);
             }
         }
 
         protected override MVMGEM.Material GetMaterial() => PanelMaterials.PanelInner;
+
+        public override void Add(IPanelSection section)
+        {
+            if (section.Volume != null) Add(section.Volume);
+        }
+
+        public override void Remove(IPanelSection section)
+        {
+            if (section.Volume != null) Remove(section.Volume);
+        }
     }
 }

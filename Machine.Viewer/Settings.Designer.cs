@@ -106,5 +106,29 @@ namespace Machine.Viewer {
                 this["PanelInnerMaterial"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Base")]
+        public string PanelFragmentType {
+            get {
+                return ((string)(this["PanelFragmentType"]));
+            }
+            set {
+                this["PanelFragmentType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("By_5")]
+        public string SectionDivision {
+            get {
+                return ((string)(this["SectionDivision"]));
+            }
+            set {
+                this["SectionDivision"] = value;
+            }
+        }
     }
 }

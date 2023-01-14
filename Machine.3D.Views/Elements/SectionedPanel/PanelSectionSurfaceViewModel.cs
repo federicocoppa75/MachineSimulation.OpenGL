@@ -19,6 +19,7 @@ namespace Machine._3D.Views.Elements
         private bool disposedValue;
 
         public bool IsChanged => _meshProvider.IsChanged;
+        public int Id { get; private set; }
 
         private PanelSectionSurfaceViewModel()
         {
@@ -30,7 +31,7 @@ namespace Machine._3D.Views.Elements
 
             if (mp != null)
             {
-                return new PanelSectionSurfaceViewModel() { _meshProvider = mp };
+                return new PanelSectionSurfaceViewModel() { Id = se.Id, _meshProvider = mp };
             }
             else
                 throw new ArgumentException();

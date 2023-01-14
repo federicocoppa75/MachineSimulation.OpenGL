@@ -13,6 +13,9 @@ using Machine.ViewModels.UI;
 using System.Threading;
 using Machine._3D.Views.Interfaces;
 using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;
+using MaterialRemove.Interfaces;
+using Assimp;
+using System.Collections.Concurrent;
 
 namespace Machine._3D.Views.Elements.SectionedPanel
 {
@@ -29,15 +32,17 @@ namespace Machine._3D.Views.Elements.SectionedPanel
         M3DVG.Mesh _panelMesh;
         private bool disposedValue;
 
-        protected List<PanelSectionSurfaceViewModel> _sectionSurfaces = new List<PanelSectionSurfaceViewModel>();
+        private ConcurrentDictionary<int, PanelSectionSurfaceViewModel> _sectionSurfaces = new ConcurrentDictionary<int, PanelSectionSurfaceViewModel>();
 
         private IPanelMaterials _panelMaterials;
         public IPanelMaterials PanelMaterials =>  _panelMaterials ?? (_panelMaterials = Machine.ViewModels.Ioc.SimpleIoc<IPanelMaterials>.GetInstance()); 
 
         public override bool IsVisible => IsVisibleBase();
+        private bool IsChanged() => _sectionSurfaces.Values.Any(s => s.IsChanged);
 
         public override void Draw(IProgram program, Matrix4 projection, Matrix4 view)
         {
+            if (disposedValue) return;
             if (_panelMesh == null)
             {
                 CheckUpdateAsync(program);
@@ -52,12 +57,11 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             CheckUpdateAsync(program);
         }
 
-        protected abstract MVMGEM.Material GetMaterial();
-
         protected void SetMaterial(IProgram program) => M3DVH.MaterialHelper.SetMaterial(program, GetMaterial());
 
         private void CheckUpdate(IProgram program)
         {
+            if (disposedValue) return;
             if (!IsChanged()) return;
             if (_sectionSurfaces.Count == 0) return;
 
@@ -65,15 +69,18 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             var pLength = 0;
             var meshes = new List<RawMesh>();
 
-            for (int i = 0; i < _sectionSurfaces.Count; i++)
+            foreach (var key in _sectionSurfaces.Keys)
             {
-                var section = _sectionSurfaces[i];
-
-                section.GetMesh(out Vector3[] points, out uint[] idxs, out Vector3[] normals);
-                meshes.Add(new RawMesh { points = points, normals = normals, indexes = idxs });
-                pLength += points.Length;
-                iLength += idxs.Length;
+                if(_sectionSurfaces.TryGetValue(key, out var section))
+                {
+                    section.GetMesh(out Vector3[] points, out uint[] idxs, out Vector3[] normals);
+                    meshes.Add(new RawMesh { points = points, normals = normals, indexes = idxs });
+                    pLength += points.Length;
+                    iLength += idxs.Length;
+                }
             }
+
+            if (meshes.Count == 0) return;
 
             var indexes = new uint[iLength];
             var vertexes = new M3DVG.Vertex[pLength];
@@ -91,10 +98,14 @@ namespace Machine._3D.Views.Elements.SectionedPanel
                 iOffset += mesh.indexes.Length;
             }
 
+            var oldPanelMesh = _panelMesh;
+
             Machine.ViewModels.Ioc.SimpleIoc<IDispatcherHelper>.GetInstance().CheckBeginInvokeOnUi(() =>
             {
                 _panelMesh = new M3DVG.Mesh(vertexes, indexes, program);
             });
+
+            if (oldPanelMesh != null) oldPanelMesh.Dispose();
         }
 
         private Task CheckUpdateAsync(IProgram program)
@@ -109,38 +120,38 @@ namespace Machine._3D.Views.Elements.SectionedPanel
             });
         }
 
+        protected void Add(ISectionElement element)
+        {
+            _sectionSurfaces.TryAdd(element.Id, PanelSectionSurfaceViewModel.Create(element));
+        }
+
+        protected void Remove(ISectionElement element)
+        {
+            if (_sectionSurfaces.TryRemove(element.Id, out var section)) section.Dispose();
+        }
+
         public abstract void Initialize();
-        //public void Initialize()
-        //{
-        //    var panel = Element as MRI.IPanel;
+        public abstract void Add(MRI.IPanelSection section);
+        public abstract void Remove(MRI.IPanelSection section);
+        protected abstract MVMGEM.Material GetMaterial();
 
-        //    foreach (var section in panel.Sections)
-        //    {
-        //        foreach (var face in section.Faces)
-        //        {
-        //            _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(face));
-        //        }
-
-        //        _sectionSurfaces.Add(PanelSectionSurfaceViewModel.Create(section.Volume));
-        //    }
-        //}
-
-        private bool IsChanged() => _sectionSurfaces.Any(s => s.IsChanged);
 
         #region IDisposable implementation
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
+                disposedValue = true;
+
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
-                    foreach (var item in _sectionSurfaces) item.Dispose();
+                    foreach (var item in _sectionSurfaces.Values) item.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
-                disposedValue = true;
+                _panelMesh = null;
             }
         }
 

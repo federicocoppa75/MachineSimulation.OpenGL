@@ -20,6 +20,7 @@ using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
 using OpenTK.Mathematics;
 using Machine.ViewModels.GeometryExtensions.Math;
+using MaterialRemove.Interfaces;
 
 namespace Machine._3D.Views
 {
@@ -154,7 +155,7 @@ namespace Machine._3D.Views
                 _meshMap.Clear();
             }
 
-            (vm as IDisposable)?.Dispose();
+            if(vm is Elements.SectionedPanel.PanelViewModel pvm) pvm.Dispose();
         }
 
         private void AddSimpleElement(IMachineElement element)
