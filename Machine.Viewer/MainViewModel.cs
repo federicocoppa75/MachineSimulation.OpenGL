@@ -7,6 +7,7 @@ using VMUI = Machine.ViewModels.UI;
 using MRI = MaterialRemove.Interfaces;
 using MRIE = MaterialRemove.Interfaces.Enums;
 using MVMIoc = Machine.ViewModels.Ioc;
+using M3DVI = Machine._3D.Views.Interfaces;
 
 namespace Machine.Viewer
 {
@@ -22,6 +23,7 @@ namespace Machine.Viewer
         public VMUI.IOptionProvider<MRIE.SectionDivision> SectionDivisionOptions => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<MRIE.SectionDivision>>.GetInstance();
         public VMUI.IOptionProvider<string> PanelOuterMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelOuterMaterial");
         public VMUI.IOptionProvider<string> PanelInnerMaterial => ViewModels.Ioc.SimpleIoc<VMUI.IOptionProvider<string>>.GetInstance("PanelInnerMaterial");
+        public M3DVI.IBackgroundColor BackgroundColor => ViewModels.Ioc.SimpleIoc<M3DVI.IBackgroundColor>.GetInstance();
 
 
         public MainViewModel() : base()

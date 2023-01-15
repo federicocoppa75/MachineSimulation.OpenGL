@@ -53,7 +53,8 @@ namespace Machine.Viewer
             Settings.Default.PanelInnerMaterial = vm.PanelInnerMaterial.Value;
             Settings.Default.PanelFragmentType = vm.MaterialRemoveData.PanelFragment.ToString();
             Settings.Default.SectionDivision = vm.MaterialRemoveData.SectionDivision.ToString();
-
+            Settings.Default.BackgroundColorStart = MVH.MainWindowHelper.Convert(vm.BackgroundColor.Start);
+            Settings.Default.BackgroundColorStop = MVH.MainWindowHelper.Convert(vm.BackgroundColor.Stop);
         }
 
         private void UpdateFromSettings()
@@ -69,6 +70,8 @@ namespace Machine.Viewer
             vm.PanelInnerMaterial.TryToParse(Settings.Default.PanelInnerMaterial);
             vm.PanelFragmentOptions.TryToParse(Settings.Default.PanelFragmentType);
             vm.SectionDivisionOptions.TryToParse(Settings.Default.SectionDivision);
+            vm.BackgroundColor.Start = MVH.MainWindowHelper.Convert(Settings.Default.BackgroundColorStart);
+            vm.BackgroundColor.Stop = MVH.MainWindowHelper.Convert(Settings.Default.BackgroundColorStop);
         }
 
     }

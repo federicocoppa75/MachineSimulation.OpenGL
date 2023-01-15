@@ -38,6 +38,7 @@ namespace Machine._3D.Views.Geometries
 
         public void Draw()
         {
+            if(disposedValue) return;
             _vao.Bind();
             _vao.DrawElements(PrimitiveType.Triangles, _ebo.ElementCount);
         }
@@ -75,6 +76,8 @@ namespace Machine._3D.Views.Geometries
         {
             if (!disposedValue)
             {
+                disposedValue = true;
+
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
@@ -85,7 +88,6 @@ namespace Machine._3D.Views.Geometries
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
-                disposedValue = true;
             }
         }
 

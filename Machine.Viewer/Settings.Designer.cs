@@ -130,5 +130,29 @@ namespace Machine.Viewer {
                 this["SectionDivision"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 224, 192")]
+        public global::System.Drawing.Color BackgroundColorStart {
+            get {
+                return ((global::System.Drawing.Color)(this["BackgroundColorStart"]));
+            }
+            set {
+                this["BackgroundColorStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 255, 255")]
+        public global::System.Drawing.Color BackgroundColorStop {
+            get {
+                return ((global::System.Drawing.Color)(this["BackgroundColorStop"]));
+            }
+            set {
+                this["BackgroundColorStop"] = value;
+            }
+        }
     }
 }

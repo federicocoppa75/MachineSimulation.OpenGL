@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Machine.Viewer"
         xmlns:views="clr-namespace:Machine.Views;assembly=Machine.Views"
         xmlns:view3D="clr-namespace:Machine._3D.Views;assembly=Machine.3D.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -32,6 +33,12 @@
                     <MenuItem Header="Save Environment" Command="{Binding DataSource.Value.SaveEnvironmentCommand}" />
                     <Separator/>
                     <MenuItem Header="Export view" Command="{Binding ViewExportController.ExportCommand}" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="Background">
+                        <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Start}"  DropDownBackground="White"/>
+                        <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Steps">
                     <MenuItem Header="Load" Command="{Binding StepController.LoadStepsCommand}" />

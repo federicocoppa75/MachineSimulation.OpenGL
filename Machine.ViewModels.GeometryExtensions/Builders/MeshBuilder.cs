@@ -330,6 +330,39 @@ namespace Machine.ViewModels.GeometryExtensions.Builders
             this.triangleIndices.Add(i0 + 2);
         }
 
+        public void AddBackground(Point3D viewPosition, Vector3D look, Vector3D up, float fov, float depthFar, float aspectRatio, Vector3D upColor, Vector3D downColor)
+        {
+            var lefth = Vector3D.Cross(look, up);
+            var center = viewPosition + look * (depthFar / 1.01);
+            var h = MathHelper.Tan(fov * 0.5) * depthFar;
+            var w = h * aspectRatio;
+            var p1 = center - lefth * w - up * h;
+            var p2 = center + lefth * w - up * h;
+            var p3 = center + lefth * w + up * h;
+            var p4 = center - lefth * w + up * h;
+            var n = -look;
+
+            var i0 = this.positions.Count;
+            this.positions.Add(p1);
+            this.positions.Add(p2);
+            this.positions.Add(p3);
+            this.positions.Add(p4);
+            if (this.normals != null)
+            {
+                this.normals.Add(downColor);
+                this.normals.Add(downColor);
+                this.normals.Add(upColor);
+                this.normals.Add(upColor);
+            }
+
+            this.triangleIndices.Add(i0 + 0);
+            this.triangleIndices.Add(i0 + 1);
+            this.triangleIndices.Add(i0 + 3);
+            this.triangleIndices.Add(i0 + 1);
+            this.triangleIndices.Add(i0 + 2);
+            this.triangleIndices.Add(i0 + 3);
+        }
+
         /// <summary>
         /// Adds a box with the specified faces, aligned with the specified axes.
         /// </summary>

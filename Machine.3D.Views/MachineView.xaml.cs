@@ -25,6 +25,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Machine.ViewModels.Interfaces.Factories;
+using Machine.ViewModels.GeometryExtensions.Builders;
+using M3DVG = Machine._3D.Views.Geometries;
+using Machine.ViewModels.GeometryExtensions.Materials;
+using Machine._3D.Views.Geometries;
+using SWM = System.Windows.Media;
+using Machine._3D.Views.Interfaces;
 
 namespace Machine._3D.Views
 {
@@ -122,10 +128,21 @@ namespace Machine._3D.Views
         double _elapsed;
         private bool _ctrlLoaded = false;
         private IProgram _program;
+        private BackgroundProgram _bckGrdProgram;
 
         protected Cameras.Camera Camera;
         protected Matrix4 View;
         protected Matrix4 Projection;
+
+        private float _depthNear = 0.1f;
+        private float _depthFar = 20000;
+        private float _fov = MathHelper.PiOver4;
+        private M3DVG.Background _background;
+        //private M3DVG.Mesh _background;
+        private Matrix4 _lastView;
+        private double _lastWidth;
+        private double _lastHeight;
+        private bool _backgroundColorChanged;
 
         protected DirectionalLight _directionalLight = new DirectionalLight()
         {
@@ -231,6 +248,9 @@ namespace Machine._3D.Views
 
         private PanelMaterialViewModel _panelMaterial = new PanelMaterialViewModel();
 
+        private BackgroundColor BackgroudColor { get; set; } = new BackgroundColor() { Start = Colors.LightGray, Stop = Colors.LightCyan };
+
+
         public MachineView()
         {
             InitializeComponent();
@@ -238,6 +258,7 @@ namespace Machine._3D.Views
             Machine.ViewModels.Ioc.SimpleIoc<IColliderHelperFactory>.Register<ColliderHelperFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IInserterToSinkTransformerFactory>.Register<InserterToSinkTransformerFactory>();
             Machine.ViewModels.Ioc.SimpleIoc<IProcessCaller>.Register(_renderProcesssCaller);
+            Machine.ViewModels.Ioc.SimpleIoc<IBackgroundColor>.Register(BackgroudColor);
 
             ProgramFactory.BasePath = "Shaders/";
             ProgramFactory.Extension = "glsl";  
@@ -249,7 +270,7 @@ namespace Machine._3D.Views
             };
 
             glViewCtrl.Start(settings);
-
+            BackgroudColor.PropertyChanged += (s, e) => _backgroundColorChanged = true;
         }
 
         private void OnGlViewCtrlLoaded(object sender, RoutedEventArgs e)
@@ -257,6 +278,7 @@ namespace Machine._3D.Views
             //_program = ProgramFactory.Create<PointLightProgram>();
             //_program = ProgramFactory.Create<SpotLightProgram>();
             //_program = ProgramFactory.Create<DirectionalLightProgram>();
+            _bckGrdProgram = ProgramFactory.Create<BackgroundProgram>();
             _program = ProgramFactory.Create<MultiLightProgram>();
             _program.Use();
 
@@ -265,7 +287,7 @@ namespace Machine._3D.Views
             Camera = new Cameras.Camera();
             //Camera.SetBehavior(new Cameras.ThirdPersonBehavior());
             Camera.SetBehavior(new Cameras.TrackballBehavior());
-            Camera.DefaultState.Position.Z = 1000;
+            Camera.DefaultState.Position = Vector3.UnitZ * 1000;
             Camera.ResetToDefault();
             Camera.Enable(this);
             ResetMatrices();
@@ -293,6 +315,10 @@ namespace Machine._3D.Views
             if (_ctrlLoaded)
             {
                 SetupPerspective();
+                SetBackground(Projection, View);
+
+                _program.Use();
+
                 // calculate the MVP matrix and set it to the shaders uniform
                 _program.viewPos.Set(Camera.State.Position);
 
@@ -344,7 +370,7 @@ namespace Machine._3D.Views
         {
             // setup perspective projection
             var aspectRatio = ActualWidth / ActualHeight;
-            Projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)aspectRatio, 0.1f, 20000);
+            Projection = Matrix4.CreatePerspectiveFieldOfView(_fov, (float)aspectRatio, _depthNear, _depthFar);
             View = Camera.GetCameraTransform();
         }
 
@@ -390,5 +416,74 @@ namespace Machine._3D.Views
 
             (_program as IDirectionalLight).light.Set(_directionalLight);
         }
+
+        private void SetBackground(Matrix4 projection, Matrix4 view)
+        {
+            _bckGrdProgram.Use();
+
+            if (_background == null) SetupBackground();
+            else if (IsViewStateChanged()) UpdateBackground();
+
+            var m = /*Matrix4.Identity **/ view * projection;
+            //MaterialHelper.SetMaterial(_program, PhongMaterials.Red);
+            //_program.ModelViewProjectionMatrix.Set(m);
+            _bckGrdProgram.ModelViewProjectionMatrix.Set(m);
+
+            _background.Draw();
+        }
+
+        private void SetupBackground()
+        {
+            GetBackgroundMesh(out var vertexes, out var indexes);
+
+            _background = new M3DVG.Background(vertexes, indexes, _bckGrdProgram);
+            UpdateLast();
+        }
+
+        private void UpdateBackground()
+        {
+            GetBackgroundMesh(out var vertexes, out var indexes);
+
+            _background.UpdatePosition(vertexes);
+            UpdateLast();
+        }
+
+        private void GetBackgroundMesh(out Vertex[] vertexes, out uint[] indexes)
+        {
+            var builder = new MeshBuilder();
+            var aspectRatio = ActualWidth / ActualHeight;
+
+            builder.AddBackground(Camera.State.Position, 
+                                  Camera.State.LookAt, 
+                                  Camera.State.Up, 
+                                  _fov, 
+                                  _depthFar, 
+                                  (float)aspectRatio,
+                                  ToVector(BackgroudColor.Start),
+                                  ToVector(BackgroudColor.Stop));
+            builder.ToMesh(out var points, out indexes, out var normals);
+
+            vertexes = Helpers.ElementBuilder.BuildVertexes(points, normals);
+        }
+
+        private bool IsViewStateChanged()
+        {
+            return true;
+
+            if(!_lastView.Equals(View)) return true;
+            else if(_lastWidth != ActualWidth) return true;
+            else if(_lastHeight != ActualHeight) return true;
+            else if(_backgroundColorChanged) return true;
+            else return false;
+        }
+
+        private void UpdateLast()
+        {
+            _lastView = View;
+            _lastWidth = ActualWidth;
+            _lastHeight = ActualHeight;
+        }
+
+        private static Vector3 ToVector(SWM.Color color) => new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
     }
 }

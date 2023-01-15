@@ -16,8 +16,8 @@ namespace Machine._3D.Views.Cameras
 
         public CameraState()
         {
-            LookAt.Z = -1;
-            Up.Y = 1;
+            LookAt = -Vector3.UnitZ;
+            Up = Vector3.UnitY;
         }
 
         public override string ToString()

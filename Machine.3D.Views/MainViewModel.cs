@@ -20,7 +20,6 @@ using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
 using OpenTK.Mathematics;
 using Machine.ViewModels.GeometryExtensions.Math;
-using MaterialRemove.Interfaces;
 
 namespace Machine._3D.Views
 {
