@@ -31,6 +31,7 @@ using Machine.ViewModels.GeometryExtensions.Materials;
 using Machine._3D.Views.Geometries;
 using SWM = System.Windows.Media;
 using Machine._3D.Views.Interfaces;
+//using System.Configuration;
 
 namespace Machine._3D.Views
 {
@@ -143,6 +144,7 @@ namespace Machine._3D.Views
         private double _lastWidth;
         private double _lastHeight;
         private bool _backgroundColorChanged;
+        private Matrix4 _backgroundModel = Matrix4.Identity;
 
         protected DirectionalLight _directionalLight = new DirectionalLight()
         {
@@ -419,17 +421,20 @@ namespace Machine._3D.Views
 
         private void SetBackground(Matrix4 projection, Matrix4 view)
         {
+            var model = _backgroundModel;
             _bckGrdProgram.Use();
 
             if (_background == null) SetupBackground();
-            else if (IsViewStateChanged()) UpdateBackground();
+            else if(IsWindowChanged()) UpdateBackgroundGeometry();
+            else if (IsViewStateChanged()) model = UpdateBackgroundOrientation();
 
-            var m = /*Matrix4.Identity **/ view * projection;
+            var m = model * view * projection;
             //MaterialHelper.SetMaterial(_program, PhongMaterials.Red);
             //_program.ModelViewProjectionMatrix.Set(m);
             _bckGrdProgram.ModelViewProjectionMatrix.Set(m);
 
             _background.Draw();
+            _backgroundModel = model;
         }
 
         private void SetupBackground()
@@ -440,12 +445,19 @@ namespace Machine._3D.Views
             UpdateLast();
         }
 
-        private void UpdateBackground()
+        private void UpdateBackgroundGeometry()
         {
             GetBackgroundMesh(out var vertexes, out var indexes);
 
             _background.UpdatePosition(vertexes);
             UpdateLast();
+        }
+
+        private Matrix4 UpdateBackgroundOrientation()
+        {
+            _lastView = View;
+
+            return Matrix4.Invert(View);
         }
 
         private void GetBackgroundMesh(out Vertex[] vertexes, out uint[] indexes)
@@ -468,12 +480,15 @@ namespace Machine._3D.Views
 
         private bool IsViewStateChanged()
         {
-            return true;
-
             if(!_lastView.Equals(View)) return true;
-            else if(_lastWidth != ActualWidth) return true;
-            else if(_lastHeight != ActualHeight) return true;
-            else if(_backgroundColorChanged) return true;
+            else return false;
+        }
+
+        private bool IsWindowChanged()
+        {
+            if (_lastWidth != ActualWidth) return true;
+            else if (_lastHeight != ActualHeight) return true;
+            else if (_backgroundColorChanged) return true;
             else return false;
         }
 
@@ -482,6 +497,7 @@ namespace Machine._3D.Views
             _lastView = View;
             _lastWidth = ActualWidth;
             _lastHeight = ActualHeight;
+            _backgroundColorChanged = false;
         }
 
         private static Vector3 ToVector(SWM.Color color) => new Vector3(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f);
