@@ -140,7 +140,6 @@ namespace Machine._3D.Views
         private float _fov = MathHelper.PiOver4;
         private M3DVG.Background _background;
         //private M3DVG.Mesh _background;
-        private Matrix4 _lastView;
         private double _lastWidth;
         private double _lastHeight;
         private bool _backgroundColorChanged;
@@ -446,13 +445,6 @@ namespace Machine._3D.Views
             UpdateLast();
         }
 
-        private Matrix4 UpdateBackgroundOrientation()
-        {
-            _lastView = View;
-
-            return Matrix4.Invert(View);
-        }
-
         private void GetBackgroundMesh(out Vertex[] vertexes, out uint[] indexes)
         {
             var builder = new MeshBuilder();
@@ -471,12 +463,6 @@ namespace Machine._3D.Views
             vertexes = Helpers.ElementBuilder.BuildVertexes(points, normals);
         }
 
-        private bool IsViewStateChanged()
-        {
-            if(!_lastView.Equals(View)) return true;
-            else return false;
-        }
-
         private bool IsWindowChanged()
         {
             if (_lastWidth != ActualWidth) return true;
@@ -487,7 +473,6 @@ namespace Machine._3D.Views
 
         private void UpdateLast()
         {
-            _lastView = View;
             _lastWidth = ActualWidth;
             _lastHeight = ActualHeight;
             _backgroundColorChanged = false;
