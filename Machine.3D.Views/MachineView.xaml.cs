@@ -144,7 +144,6 @@ namespace Machine._3D.Views
         private double _lastWidth;
         private double _lastHeight;
         private bool _backgroundColorChanged;
-        private Matrix4 _backgroundModel = Matrix4.Identity;
 
         protected DirectionalLight _directionalLight = new DirectionalLight()
         {
@@ -317,7 +316,7 @@ namespace Machine._3D.Views
             if (_ctrlLoaded)
             {
                 SetupPerspective();
-                SetBackground(Projection, View);
+                SetBackground(Projection);
 
                 _program.Use();
 
@@ -419,22 +418,16 @@ namespace Machine._3D.Views
             (_program as IDirectionalLight).light.Set(_directionalLight);
         }
 
-        private void SetBackground(Matrix4 projection, Matrix4 view)
+        private void SetBackground(Matrix4 projection)
         {
-            var model = _backgroundModel;
             _bckGrdProgram.Use();
 
             if (_background == null) SetupBackground();
             else if(IsWindowChanged()) UpdateBackgroundGeometry();
-            else if (IsViewStateChanged()) model = UpdateBackgroundOrientation();
 
-            var m = model * view * projection;
-            //MaterialHelper.SetMaterial(_program, PhongMaterials.Red);
-            //_program.ModelViewProjectionMatrix.Set(m);
-            _bckGrdProgram.ModelViewProjectionMatrix.Set(m);
+            _bckGrdProgram.ModelViewProjectionMatrix.Set(projection);
 
             _background.Draw();
-            _backgroundModel = model;
         }
 
         private void SetupBackground()
