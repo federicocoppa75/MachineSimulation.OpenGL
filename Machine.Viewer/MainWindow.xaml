@@ -36,8 +36,8 @@
                 </MenuItem>
                 <MenuItem Header="View">
                     <MenuItem Header="Background">
-                        <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Start}"  DropDownBackground="White"/>
                         <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Stop}"  DropDownBackground="White"/>
+                        <xctk:ColorPicker SelectedColor="{Binding BackgroundColor.Start}"  DropDownBackground="White"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Steps">

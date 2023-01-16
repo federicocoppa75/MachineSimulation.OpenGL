@@ -330,7 +330,7 @@ namespace Machine.ViewModels.GeometryExtensions.Builders
             this.triangleIndices.Add(i0 + 2);
         }
 
-        public void AddBackground(Point3D viewPosition, Vector3D look, Vector3D up, float fov, float depthFar, float aspectRatio, Vector3D upColor, Vector3D downColor)
+        public void AddBackground(Point3D viewPosition, Vector3D look, Vector3D up, float fov, float depthFar, float aspectRatio)
         {
             var lefth = Vector3D.Cross(look, up);
             var center = viewPosition + look * (depthFar / 1.01);
@@ -349,10 +349,10 @@ namespace Machine.ViewModels.GeometryExtensions.Builders
             this.positions.Add(p4);
             if (this.normals != null)
             {
-                this.normals.Add(downColor);
-                this.normals.Add(downColor);
-                this.normals.Add(upColor);
-                this.normals.Add(upColor);
+                this.normals.Add(n);
+                this.normals.Add(n);
+                this.normals.Add(n);
+                this.normals.Add(n);
             }
 
             this.triangleIndices.Add(i0 + 0);

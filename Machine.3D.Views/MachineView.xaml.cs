@@ -425,6 +425,8 @@ namespace Machine._3D.Views
             else if(IsWindowChanged()) UpdateBackgroundGeometry();
 
             _bckGrdProgram.ModelViewProjectionMatrix.Set(projection);
+            _bckGrdProgram.UpColor.Set(ToVector(BackgroudColor.Stop));
+            _bckGrdProgram.DwColor.Set(ToVector(BackgroudColor.Start));
 
             _background.Draw();
         }
@@ -445,7 +447,7 @@ namespace Machine._3D.Views
             UpdateLast();
         }
 
-        private void GetBackgroundMesh(out Vertex[] vertexes, out uint[] indexes)
+        private void GetBackgroundMesh(out Vector4[] vertexes, out uint[] indexes)
         {
             var builder = new MeshBuilder();
             var aspectRatio = ActualWidth / ActualHeight;
@@ -455,12 +457,14 @@ namespace Machine._3D.Views
                                   Camera.DefaultState.Up, 
                                   _fov, 
                                   _depthFar, 
-                                  (float)aspectRatio,
-                                  ToVector(BackgroudColor.Start),
-                                  ToVector(BackgroudColor.Stop));
+                                  (float)aspectRatio);
             builder.ToMesh(out var points, out indexes, out var normals);
 
-            vertexes = Helpers.ElementBuilder.BuildVertexes(points, normals);
+            var values = Helpers.ElementBuilder.BuildGradientValues(points, Camera.DefaultState.Up);
+            
+            vertexes= new Vector4[values.Length];
+
+            for (int i = 0; i < values.Length; i++) vertexes[i] = new Vector4(points[i], values[i]);
         }
 
         private bool IsWindowChanged()
