@@ -450,9 +450,9 @@ namespace Machine._3D.Views
             var builder = new MeshBuilder();
             var aspectRatio = ActualWidth / ActualHeight;
 
-            builder.AddBackground(Camera.State.Position, 
-                                  Camera.State.LookAt, 
-                                  Camera.State.Up, 
+            builder.AddBackground(Camera.DefaultState.Position, 
+                                  Camera.DefaultState.LookAt, 
+                                  Camera.DefaultState.Up, 
                                   _fov, 
                                   _depthFar, 
                                   (float)aspectRatio,
