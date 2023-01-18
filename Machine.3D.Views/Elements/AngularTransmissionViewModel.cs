@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MVMIM = Machine.ViewModels.Interfaces.MachineElements;
 using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
 
 namespace Machine._3D.Views.Elements
@@ -16,11 +15,11 @@ namespace Machine._3D.Views.Elements
         {
             get
             {
-                var bodyModelFile = "";// (Element as MVMIME.IAngularTransmission).BodyModelFile;
+                var bodyModelFile = (Element as MVMIME.IAngularTransmission).BodyModelFile;
 
                 return Element != null &&
                        !string.IsNullOrEmpty(bodyModelFile) &&
-                       Element is MVMIM.IViewElementData ved &&
+                       Element is MVMIME.IViewElementData ved &&
                        ved.IsVisible;
             }
         }

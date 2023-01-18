@@ -184,11 +184,10 @@ namespace Machine._3D.Views
 
         private void AddAngularTransmission(IAngularTransmission at)
         {
-            var bodyModelFile = "";// (at as Machine.ViewModels.MachineElements.AngularTransmissionViewModel).BodyModelFile;
             var e = new AngularTransmissionViewModel()
             {
                 Element = at,
-                Geometry = GetElementGeometry(bodyModelFile)
+                Geometry = GetElementGeometry(at.BodyModelFile)
             };
 
             _elementMap[at] = e;

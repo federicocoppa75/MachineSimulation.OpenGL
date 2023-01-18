@@ -22,7 +22,6 @@ using MRI = MaterialRemove.Interfaces;
 using MVMII = Machine.ViewModels.Interfaces.Insertions;
 using MVMIns = Machine.ViewModels.Insertions;
 using MVMM = Machine.ViewModels.Messaging;
-using Machine.ViewModels;
 using MRVM3D = MaterialRemove.ViewModels._3D;
 using MRVMI = MaterialRemove.ViewModels.Interfaces;
 using MVMGEF = Machine.ViewModels.GeometryExtensions.Factories;
