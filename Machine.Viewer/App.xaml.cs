@@ -26,6 +26,7 @@ using Machine.ViewModels;
 using MRVM3D = MaterialRemove.ViewModels._3D;
 using MRVMI = MaterialRemove.ViewModels.Interfaces;
 using MVMGEF = Machine.ViewModels.GeometryExtensions.Factories;
+using MVMBI = Machine.ViewModels.Base.Implementation;
 
 namespace Machine.Viewer
 {
@@ -36,7 +37,7 @@ namespace Machine.Viewer
     {
         public App()
         {
-            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<KernelViewModel>();
+            ViewModels.Ioc.SimpleIoc<MVMI.IKernelViewModel>.Register<MVMBI.KernelViewModel>();
             ViewModels.Ioc.SimpleIoc<MVMM.IMessenger>.Register<MVMM.Messenger>();
             ViewModels.Ioc.SimpleIoc<MVMUI.IDataSource>.Register<MDFJ.DataSource>("File.JSON");
             ViewModels.Ioc.SimpleIoc<MVMUI.IFileDialog>.Register<MVUI.FileDialog<MW32.OpenFileDialog>>("OpenFile");

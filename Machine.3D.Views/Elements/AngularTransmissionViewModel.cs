@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVMIM = Machine.ViewModels.Interfaces.MachineElements;
-using MVMM = Machine.ViewModels.MachineElements;
+using MVMIME = Machine.ViewModels.Interfaces.MachineElements;
 
 namespace Machine._3D.Views.Elements
 {
@@ -16,7 +16,7 @@ namespace Machine._3D.Views.Elements
         {
             get
             {
-                var bodyModelFile = (Element as MVMM.AngularTransmissionViewModel).BodyModelFile;
+                var bodyModelFile = "";// (Element as MVMIME.IAngularTransmission).BodyModelFile;
 
                 return Element != null &&
                        !string.IsNullOrEmpty(bodyModelFile) &&

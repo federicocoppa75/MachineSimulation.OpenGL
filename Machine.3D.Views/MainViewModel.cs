@@ -20,6 +20,7 @@ using OTKM = OpenTK.Mathematics;
 using MRI = MaterialRemove.Interfaces;
 using OpenTK.Mathematics;
 using Machine.ViewModels.GeometryExtensions.Math;
+using Machine.ViewModels.Base.Implementation;
 
 namespace Machine._3D.Views
 {
@@ -170,7 +171,7 @@ namespace Machine._3D.Views
 
         private void AddToolElement(IToolElement element)
         {
-            var coneModelFile = (element as Machine.ViewModels.MachineElements.ToolViewModel).ConeModelFile;
+            var coneModelFile = (element as Machine.ViewModels.Interfaces.Bridge.IToolDataProxy).Tool.ConeModelFile;
             var e = new ToolViewModel() 
             {
                 Element = element,
@@ -183,7 +184,7 @@ namespace Machine._3D.Views
 
         private void AddAngularTransmission(IAngularTransmission at)
         {
-            var bodyModelFile = (at as Machine.ViewModels.MachineElements.AngularTransmissionViewModel).BodyModelFile;
+            var bodyModelFile = "";// (at as Machine.ViewModels.MachineElements.AngularTransmissionViewModel).BodyModelFile;
             var e = new AngularTransmissionViewModel()
             {
                 Element = at,

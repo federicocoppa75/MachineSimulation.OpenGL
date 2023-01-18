@@ -9,13 +9,13 @@ using MRI = MaterialRemove.Interfaces;
 using M3DVH = Machine._3D.Views.Helpers;
 using M3DVG = Machine._3D.Views.Geometries;
 using Machine.ViewModels.Interfaces.MachineElements;
-using Machine.ViewModels.UI;
 using System.Threading;
 using Machine._3D.Views.Interfaces;
 using MVMGEM = Machine.ViewModels.GeometryExtensions.Materials;
 using MaterialRemove.Interfaces;
 using Assimp;
 using System.Collections.Concurrent;
+using Machine.ViewModels.UI;
 
 namespace Machine._3D.Views.Elements.SectionedPanel
 {
