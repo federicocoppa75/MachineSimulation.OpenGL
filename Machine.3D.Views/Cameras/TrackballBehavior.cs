@@ -43,7 +43,6 @@ namespace Machine._3D.Views.Cameras
                 {
                     // Pan with mouse
                     HandlePan(state, delta);
-
                     UpdateDistanceAfterPan(state, 0);
                 }
                 else
@@ -59,9 +58,15 @@ namespace Machine._3D.Views.Cameras
 
                 }
             }
-            if (Mouse.RightButton == MouseButtonState.Pressed)
+            else if (Mouse.RightButton == MouseButtonState.Pressed)
             {
                 UpdateDistance(state, delta.Y);
+            }
+            else if (Mouse.MiddleButton == MouseButtonState.Pressed)
+            {
+                // Pan with mouse
+                HandlePan(state, delta);
+                UpdateDistanceAfterPan(state, 0);
             }
         }
 
@@ -70,6 +75,19 @@ namespace Machine._3D.Views.Cameras
             if (delta > 100) delta = 100;
 
             UpdateDistance(state, -delta);
+        }
+
+        public override bool IsPanning()
+        {
+            bool result = false;
+
+            if ((Mouse.MiddleButton == MouseButtonState.Pressed) ||
+                ((Mouse.LeftButton == MouseButtonState.Pressed) && Keyboard.IsKeyDown(Key.LeftShift)))
+            {
+                result = true;
+            }            
+
+            return result;
         }
 
         protected void UpdateLastDistance(CameraState state)

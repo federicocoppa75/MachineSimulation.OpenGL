@@ -84,7 +84,7 @@ namespace Machine._3D.Views.Cameras
 
         private void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            var mouseMoveSpeed = Keyboard.IsKeyDown(Key.LeftShift) ? MouseMoveSpeedOnPan : MouseMoveSpeedOnRot;
+            var mouseMoveSpeed = Behavior.IsPanning() ? MouseMoveSpeedOnPan : MouseMoveSpeedOnRot;
             var p = _getMousePosition();
             var d = p - _mousePosition;
             var s = _getViewSize();

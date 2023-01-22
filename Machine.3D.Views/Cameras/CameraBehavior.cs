@@ -17,6 +17,7 @@ namespace Machine._3D.Views.Cameras
         public virtual void MouseMove(CameraState state, Vector2 delta) { }
         public virtual void MouseWheelChanged(CameraState state, float delta) { }
         public virtual void SetOrigin(Vector3 point) { }
+        public virtual bool IsPanning() => false;
 
         public void SetViewSize(double width, double height) 
         { 
