@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FC75.Machine.ViewModels.Interfaces" Version="2.7.0" />
-    <PackageReference Include="FC75.Machine.ViewModels.Interfaces.Bridge" Version="2.7.0" />
-    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.7.0" />
+    <PackageReference Include="FC75.Machine.ViewModels.Interfaces" Version="2.8.0" />
+    <PackageReference Include="FC75.Machine.ViewModels.Interfaces.Bridge" Version="2.8.0" />
+    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.8.0" />
     <PackageReference Include="OpenTK.Mathematics" Version="4.7.5" />
   </ItemGroup>
 
