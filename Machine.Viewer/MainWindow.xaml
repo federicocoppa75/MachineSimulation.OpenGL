@@ -85,6 +85,16 @@
                             </Style>
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
+                    <MenuItem Header="Sections per 100mm" ItemsSource="{Binding SectionsPer100mmOptions.OptionFlags}" IsEnabled="{Binding MaterialRemoveData.Enable}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Value}"/>
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="IsChecked" Value="{Binding Selected}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <MenuItem Header="Parallel computing" IsCheckable="True" IsChecked="{Binding MaterialRemoveData.ParallelComputing}" />
                     <Separator/>
                     <MenuItem Header="Export panel" Command="{Binding PanelController.ExportCommand}"/>
                     <Separator/>
