@@ -55,8 +55,8 @@ namespace Machine.Viewer
             Settings.Default.SectionDivision = vm.MaterialRemoveData.SectionDivision.ToString();
             Settings.Default.BackgroundColorStart = MVH.MainWindowHelper.Convert(vm.BackgroundColor.Start);
             Settings.Default.BackgroundColorStop = MVH.MainWindowHelper.Convert(vm.BackgroundColor.Stop);
-            Settings.Default.SectionsX100mm = vm.MaterialRemoveData.SectionsX100mm.ToString();
-            Settings.Default.ParallelComputing = vm.MaterialRemoveData.ParallelComputing;
+            //Settings.Default.SectionsX100mm = vm.MaterialRemoveData.SectionsX100mm.ToString();
+            //Settings.Default.ParallelComputing = vm.MaterialRemoveData.ParallelComputing;
         }
 
         private void UpdateFromSettings()
@@ -74,8 +74,8 @@ namespace Machine.Viewer
             vm.SectionDivisionOptions.TryToParse(Settings.Default.SectionDivision);
             vm.BackgroundColor.Start = MVH.MainWindowHelper.Convert(Settings.Default.BackgroundColorStart);
             vm.BackgroundColor.Stop = MVH.MainWindowHelper.Convert(Settings.Default.BackgroundColorStop);
-            vm.SectionsPer100mmOptions.TryToParse(Settings.Default.SectionsX100mm);
-            vm.MaterialRemoveData.ParallelComputing = Settings.Default.ParallelComputing;
+            //vm.SectionsPer100mmOptions.TryToParse(Settings.Default.SectionsX100mm);
+            //vm.MaterialRemoveData.ParallelComputing = Settings.Default.ParallelComputing;
         }
 
     }
