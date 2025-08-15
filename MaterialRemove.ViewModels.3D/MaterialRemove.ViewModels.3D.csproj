@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FC75.MaterialRemove.ViewModels" Version="2.8.0" />
+    <PackageReference Include="FC75.MaterialRemove.ViewModels" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

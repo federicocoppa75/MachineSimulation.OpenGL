@@ -16,10 +16,10 @@
 
   <ItemGroup>
     <PackageReference Include="AssimpNet" Version="4.1.0" />
-    <PackageReference Include="FC75.Machine.ViewModels.Base.Implementation" Version="2.8.0" />
-    <PackageReference Include="FC75.Machine.ViewModels.UI" Version="2.8.0" />
-    <PackageReference Include="FC75.Machine.Views.Converters" Version="2.8.0" />
-    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="2.8.0" />
+    <PackageReference Include="FC75.Machine.ViewModels.Base.Implementation" Version="3.0.0" />
+    <PackageReference Include="FC75.Machine.ViewModels.UI" Version="3.0.0" />
+    <PackageReference Include="FC75.Machine.Views.Converters" Version="3.0.0" />
+    <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="3.0.0" />
     <PackageReference Include="ObjectTK-JB" Version="1.1.1" />
     <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
   </ItemGroup>

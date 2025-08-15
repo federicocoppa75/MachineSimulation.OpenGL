@@ -1,15 +1,11 @@
 ﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MGM = MaterialRemove.Geometry.Mesh;
 
 namespace MaterialRemove.ViewModels._3D
 {
     internal static class GeometryHelper
     {
-        public static void Convert(g3.DMesh3 mesh, out Vector3[] points, out uint[] indexes, out Vector3[] normals)
+        public static void Convert(MGM.DMesh3 mesh, out Vector3[] points, out uint[] indexes, out Vector3[] normals)
         {
             if((mesh == null) || (mesh.VertexCount == 0))
             {

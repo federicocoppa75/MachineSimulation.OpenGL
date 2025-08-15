@@ -1,9 +1,5 @@
 ﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MGM = MaterialRemove.Geometry.Mesh;
 
 namespace MaterialRemove.ViewModels._3D
 {
@@ -33,7 +29,7 @@ namespace MaterialRemove.ViewModels._3D
             _lastChangeIndex = _changeIndex;
         }
 
-        public void Update(g3.DMesh3 mesh)
+        public void Update(MGM.DMesh3 mesh)
         {
             GeometryHelper.Convert(mesh, out _points, out _indexes, out _normals);
             _changeIndex++;
