@@ -15,7 +15,7 @@
     <PackageReference Include="FC75.Machine.ViewModels.Interfaces" Version="3.0.0" />
     <PackageReference Include="FC75.Machine.ViewModels.Interfaces.Bridge" Version="3.0.0" />
     <PackageReference Include="FC75.MaterialRemove.Interfaces" Version="3.0.0" />
-    <PackageReference Include="OpenTK.Mathematics" Version="4.4.0" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.7.5" />
   </ItemGroup>
 
 </Project>
